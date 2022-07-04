@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>The First Day of my Internship</title>
+      <link href="/article/2858a14c.html"/>
+      <url>/article/2858a14c.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="1-Intership"><a href="#1-Intership" class="headerlink" title="1. Intership"></a>1. Intership</h1><p>​今天是我的第一天在互联网企业实习，这里蛮漂亮的，很干净整洁。比我租的那个破房租好多了（又贵又破，骂骂捏捏！）上来第一件事就是先吃饭，我的mentor带着我们新来的实习生和一些老板去吃好吃的（free）。感觉挺好吃的哈！</p><p>ps：一张工位照片，好好看</p><span id="more"></span><img src="/article/2858a14c/imag.jpg" class><p>​下午就是“愉快的”学习时间，首先到来的是k8s和k3s的学习，咋说捏，之前没接触过，这一周在很努力的去学习等之后出博客介绍这个部分。然后就是一些漏洞安全评估的工作。我面试的是后端开发助理岗位，但是我是网络安全专业的，特别想学网安（后端开发crud太无聊啦，还是网安有意思。）这个报告是某个牛逼大学的漏洞检测保护，扫出来几个中危险漏洞，我们就看着改呗。虽然我是网安专业的但是我一点不会，听着mentor说，老厉害了。我就做些简单的工作，比如js的混淆，还有openssl升级啥子的。但是后面还得加油，做一名网安卫士（bushi）。</p><h1 id="2-Something-outragous"><a href="#2-Something-outragous" class="headerlink" title="2. Something outragous"></a>2. Something outragous</h1><p>​今天下午，一个女生（不是公司的）突然进来让我办理信用卡，我直接害怕，我以为是公司要办理的，我就莫名奇妙的办理了，然后mentor走过来批斗，害怕，真的被整害怕啦，这个女生我。。。太。。。 算了，下次长点记性就好。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Intership </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Intership </tag>
+            
+            <tag> k8s </tag>
+            
+            <tag> k3s </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>goLeaning</title>
+      <link href="/article/1c575780.html"/>
+      <url>/article/1c575780.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="1-GoLang-语言学习一些有趣的事情"><a href="#1-GoLang-语言学习一些有趣的事情" class="headerlink" title="1.GoLang 语言学习一些有趣的事情"></a>1.GoLang 语言学习一些有趣的事情</h2><h3 id="1-1-匿名函数（lambda表达式）"><a href="#1-1-匿名函数（lambda表达式）" class="headerlink" title="1.1 匿名函数（lambda表达式）"></a>1.1 匿名函数（lambda表达式）</h3><p>​第一次听到这个概念是在写java的时候利用优先队列进行排序所用到的，最开始接触到的还是Comparator这个类做Override，去定义我自己的排序规则。然后idea给出的优化是lamdba表达式，我之后也去了解了一下这个东西，发现这个东西“就是”匿名函数，但是相较于</p><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">PriorityQueue&lt;Peopel&gt; quere = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;(<span class="keyword">new</span> <span class="title class_">Comparator</span>&lt;Peopel&gt;() &#123;</span><br><span class="line">          <span class="meta">@Override</span></span><br><span class="line">          <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compare</span><span class="params">(Peopel o1, Peopel o2)</span> &#123;</span><br><span class="line">              <span class="keyword">if</span> (o1.c != o2.c) &#123;</span><br><span class="line">                  <span class="keyword">return</span> o2.c - o1.c;</span><br><span class="line">              &#125; <span class="keyword">else</span> <span class="keyword">if</span> (o1.a != o2.a) &#123;</span><br><span class="line">                  <span class="keyword">return</span> o1.a - o2.a;</span><br><span class="line">              &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                  <span class="keyword">return</span> o1.b - o2.b;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure><p>速度还是会快一点的（个人感觉）。正好昨天写了一道简单的算法题目：</p><span id="more"></span><img src="/article/1c575780/image-20220703185323900.png" class title="image-20220703185323900"><p>给一中使用优先队列和lambda表达式的解法：</p><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Comparator;</span><br><span class="line"><span class="keyword">import</span> java.util.PriorityQueue;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> m, n;</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">in</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        n = in.nextInt();</span><br><span class="line">        m = in.nextInt();</span><br><span class="line">        PriorityQueue&lt;Peopel&gt; quere = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;((o1, o2) -&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (o1.c != o2.c) &#123;</span><br><span class="line">                <span class="keyword">return</span> o2.c - o1.c;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (o1.a != o2.a) &#123;</span><br><span class="line">                <span class="keyword">return</span> o1.a - o2.a;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> o1.b - o2.b;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">while</span> (n-- != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="type">int</span> a, b, c;</span><br><span class="line">            a = in.nextInt();</span><br><span class="line">            b = in.nextInt();</span><br><span class="line">            c = in.nextInt();</span><br><span class="line">            quere.add(<span class="keyword">new</span> <span class="title class_">Peopel</span>(a, b, c));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (m-- != <span class="number">0</span>) &#123;</span><br><span class="line">            System.out.println(quere.poll());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Peopel</span> &#123;</span><br><span class="line">        <span class="type">int</span> a;</span><br><span class="line">        <span class="type">int</span> b;</span><br><span class="line">        <span class="type">int</span> c;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Peopel</span><span class="params">()</span> &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Peopel</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> c)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.a = a;</span><br><span class="line">            <span class="built_in">this</span>.b = b;</span><br><span class="line">            <span class="built_in">this</span>.c = c;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&quot;</span> +</span><br><span class="line">                    a + <span class="string">&quot; &quot;</span> +</span><br><span class="line">                    b + <span class="string">&quot; &quot;</span> +</span><br><span class="line">                    c;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>哎呀，寄！说好的写Golang的咋又变成java啦！言归正传！下面介绍go关于这方面的知识。</p><p>先看一个简单的例子：</p><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> test</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">fmt.Println(<span class="function"><span class="keyword">func</span><span class="params">(a, b <span class="type">int</span>)</span></span> <span class="type">int</span> &#123; <span class="keyword">return</span> a + b &#125;(<span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// return 2</span></span><br></pre></td></tr></table></figure><p>咋说了很简单，就是有点奇怪嘛！然后还有把匿名函数多次使用就是赋值给一个变量（我是真的无语，这和一般的函数声明有什么区别）</p><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> test</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">f := <span class="function"><span class="keyword">func</span><span class="params">(a, b <span class="type">int</span>)</span></span> <span class="type">int</span> &#123; <span class="keyword">return</span> a + b &#125;</span><br><span class="line">fmt.Println(f(<span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>然后还真有区别：匿名函数只有在被调用时才能初始化；普通函数在编译后函数声明和他的赋值都会被提前。所以普通函数的调用可以在任意位置。</p><h3 id="1-2-闭包（教程中说就类似于类，我反正不信）"><a href="#1-2-闭包（教程中说就类似于类，我反正不信）" class="headerlink" title="1.2 闭包（教程中说就类似于类，我反正不信）"></a>1.2 闭包（教程中说就类似于类，我反正不信）</h3><p>直接上例子：判断string是否有某某后缀，有则直接返回，没有的话就加上去再返回。</p><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line"><span class="string">&quot;fmt&quot;</span></span><br><span class="line"><span class="string">&quot;strings&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">// 函数的返回也可以是函数 啊 哇 （第一次被go震惊到）</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">makeSuffix</span><span class="params">(suffix <span class="type">string</span>)</span></span> <span class="function"><span class="keyword">func</span><span class="params">(<span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line"><span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(name <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line"><span class="keyword">if</span> strings.HasSuffix(name, suffix) == <span class="literal">false</span> &#123;</span><br><span class="line"><span class="keyword">return</span> name + suffix</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> name</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"><span class="keyword">var</span> s <span class="type">string</span> = <span class="string">&quot;a&quot;</span></span><br><span class="line">f := makeSuffix(<span class="string">&quot;.jpg&quot;</span>)</span><br><span class="line">fmt.Println(f(s))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>嗯嗯，很简单 一点都不难（确信）</p><p>然后看下累加器的demo（觉得蛮有意思的）</p><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">MakeUp</span><span class="params">()</span></span> <span class="function"><span class="keyword">func</span><span class="params">(<span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line"><span class="keyword">var</span> n <span class="type">int</span> = <span class="number">1</span></span><br><span class="line"><span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(i <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">n += i</span><br><span class="line"><span class="keyword">return</span> n</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"><span class="comment">//var s string = &quot;a&quot;</span></span><br><span class="line"><span class="comment">//f := makeSuffix(&quot;.jpg&quot;)</span></span><br><span class="line"><span class="comment">//fmt.Println(f(s))</span></span><br><span class="line">f := MakeUp()</span><br><span class="line">fmt.Println(MakeUp()(<span class="number">1</span>))</span><br><span class="line">fmt.Println(MakeUp()(<span class="number">2</span>))</span><br><span class="line">fmt.Println(f(<span class="number">1</span>))</span><br><span class="line">fmt.Println(f(<span class="number">2</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// something special </span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">4</span></span><br></pre></td></tr></table></figure><p>为什么会这样捏，那个教程的老师说这是因为类啥啥啥的，我觉得不是。明明是f这个表示的是同一个函数，没到结束没有被释放内存，所以嘛才会这样。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> GoLangLeaning </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> GoLang </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>The First of Hexo</title>
+      <link href="/article/9208f2b.html"/>
+      <url>/article/9208f2b.html</url>
+      
+        <content type="html"><![CDATA[<span id="more"></span><h1 id="First"><a href="#First" class="headerlink" title="First"></a>First</h1><p>​今天是对Hexo的一次尝试，真正的建立起了属于自己的博客，后天就要从开发工程师助理的实习，希望我可以经常更新博客，为大家分享我的学习和生活。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Typora </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
