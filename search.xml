@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>Docker with AWVS</title>
+      <link href="/article/72d9f5d5.html"/>
+      <url>/article/72d9f5d5.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="AWVS-in-docker"><a href="#AWVS-in-docker" class="headerlink" title="AWVS in docker"></a>AWVS in docker</h1><p>本篇主要介绍如何在docker上使用AWVS来进行测试扫描！</p><p>（由于正版AWVS收取高额费用，盗版AWVS的配置过程比较麻烦可以参考<a href="https://www.ddosi.org/awvs-14-5-2/#%E2%91%A1Linux%E7%A0%B4%E8%A7%A3%E6%96%B9%E6%B3%95">盗版</a>）</p><span id="more"></span><h2 id="1-搜索镜像"><a href="#1-搜索镜像" class="headerlink" title="1. 搜索镜像"></a>1. 搜索镜像</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker search awvs </span></span><br></pre></td></tr></table></figure><img src="/article/72d9f5d5/image-20220707104632519.png" class title="image-20220707104632519"><h2 id="2-拉取镜像"><a href="#2-拉取镜像" class="headerlink" title="2. 拉取镜像"></a>2. 拉取镜像</h2><p>直接使用pull拉取最新的镜像（红框中的镜像）</p><h2 id="3-启动镜像"><a href="#3-启动镜像" class="headerlink" title="3. 启动镜像"></a>3. 启动镜像</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker run -d -p 3443:3443 xxxxxxxx</span></span><br></pre></td></tr></table></figure><img src="/article/72d9f5d5/image-20220707104845707.png" class title="image-20220707104845707"><h2 id="4-启动程序"><a href="#4-启动程序" class="headerlink" title="4. 启动程序"></a>4. 启动程序</h2><p>镜像启动成功后，访问<a href="https://localhost:3443/">https://localhost:3443/</a> 进入AWVS登录页面</p><p>初始账号密码是：username: <a href="mailto:admin@admin.com">admin@admin.com</a> password: Admin123</p><p>之后进入页面开始AWVS扫描程序。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Intership </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Intership </tag>
+            
+            <tag> Docker </tag>
+            
+            <tag> AWVS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>The First Day of my Internship</title>
       <link href="/article/2858a14c.html"/>
       <url>/article/2858a14c.html</url>
