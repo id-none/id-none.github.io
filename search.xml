@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>A simple example of extracting root permissions</title>
+      <link href="/article/7526ee7e.html"/>
+      <url>/article/7526ee7e.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="Something-funny-but-silly"><a href="#Something-funny-but-silly" class="headerlink" title="Something funny but silly"></a>Something funny but silly</h1><p>昨天晚上，我得到老师的允许使用一些漏洞扫描软件去扫描实验室服务器的漏洞。然而在过程中出了很多幺蛾子，还好我都解决了，要不然真的会哭死。</p><span id="more"></span><h2 id="1-root-x2F-bin-x2F-bash-gt-x2F-bin-x2F-false-without-other-users-having-root"><a href="#1-root-x2F-bin-x2F-bash-gt-x2F-bin-x2F-false-without-other-users-having-root" class="headerlink" title="1. root &#x2F;bin&#x2F;bash -&gt; &#x2F;bin&#x2F;false without other users having root"></a>1. root &#x2F;bin&#x2F;bash -&gt; &#x2F;bin&#x2F;false without other users having root</h2><p>就像标题所说的那样，我无法登录root账号，除此之外，在这台服务器上也没有其他拥有root或者sudo权限的用户，以至于当时这台服务器就是完全丢失了root权限。</p><p>我当时第一件想到的事情就是百度，然后发现这种情况好像只能去线下单杀服务器，这对于校外的我很显然是不可能的，于是我就想到了提权，就学了好一会的提权，发现太难了，根本短时间内完成不了。</p><p>好在为了连接校园网，在root的定时任务上有一个每分钟都在运行的python文件，那么问题就好处理多了！</p><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os </span><br><span class="line">os.system(<span class="string">&quot;chmod 777 /etc/passwd&quot;</span>)</span><br></pre></td></tr></table></figure><p>然后就好了，直接vim修改，最后成功登陆。还有记得修改文件为默认权限哦，很多提权都会使用passwd文件。</p><h2 id="2-Vulnerability-of-the-server"><a href="#2-Vulnerability-of-the-server" class="headerlink" title="2. Vulnerability of the server"></a>2. Vulnerability of the server</h2><p>直接上检测报告：</p><img src="/article/7526ee7e/image-20220712105324236.png" class title="image-20220712105324236"><p>从上到下分别是，某个文件可以看到配置信息，然后https证书过期，最后是JS的某个包版本较低。这些还好，比较正常。但是在一个低安全风险的漏洞中，我发现了很amazing thing：</p><img src="/article/7526ee7e/image-20220712110150019.png" class title="image-20220712110150019"><p>这个目录下存在一个a.zip文件，在这个文件中包含了全部的前端文件，还有版本配置的一些相关信息，真就好离谱哈哈哈哈哈。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Security </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Security </tag>
+            
+            <tag> Power escalation </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>安全测评自检手册</title>
       <link href="/article/54e59442.html"/>
       <url>/article/54e59442.html</url>
