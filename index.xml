@@ -55,7 +55,7 @@
 &lt;p&gt;从最简单的程序交互-&amp;gt;汇编基础-&amp;gt;shellcode注入-&amp;gt;debug-&amp;gt;逆向工程。。。&lt;/p&gt;
 &lt;p&gt;在这些学习过程中，我收获很多，开始逐渐向着计算机底层靠近。&lt;/p&gt;
 &lt;h1 id=&#34;3-感受&#34;&gt;3. 感受&lt;/h1&gt;
-&lt;p&gt;通过冯诺依曼结果的代码段和text段没有明显区别可以在堆栈上写入shellcode，去执行恶意代码；&lt;/p&gt;
+&lt;p&gt;通过冯诺依曼结构的代码段和text段没有明显区别可以在堆栈上写入shellcode，去执行恶意代码；&lt;/p&gt;
 &lt;p&gt;设置ROP完成系统调用；格式化字符串泄露程序carry，爆破PIE，libc地址泄露，任意内存读写去修改汇编指令完成程序执行流（CFI）的控制，这些都是我在学习中获得的知识。每一次过题，都是一种前所未有的幸福，不仅仅是自己的知识增长了，更重要的是，解开了所谓”抽象“的面纱。&lt;/p&gt;
 </description>
         </item>
