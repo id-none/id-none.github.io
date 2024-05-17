@@ -6,6 +6,35 @@
     <description>Recent content in Tags on Boris&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
+    <lastBuildDate>Fri, 17 May 2024 14:27:25 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Differential Privacy</title>
+      <link>http://localhost:1313/tags/differential-privacy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/differential-privacy/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Location Privacy Protection</title>
+      <link>http://localhost:1313/tags/location-privacy-protection/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/location-privacy-protection/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pwn</title>
+      <link>http://localhost:1313/tags/pwn/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/pwn/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>PwnCollege</title>
+      <link>http://localhost:1313/tags/pwncollege/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/pwncollege/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>
