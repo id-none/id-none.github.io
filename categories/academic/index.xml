@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Academic on Boris&#39;s Blog</title>
-    <link>http://localhost:1313/categories/academic/</link>
+    <link>https://id-none.github.io/categories/academic/</link>
     <description>Recent content in Academic on Boris&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 17 May 2024 14:27:25 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/academic/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://id-none.github.io/categories/academic/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Vehicle-to-Vehicle Energy Sharing Scheme: A Privacy-Preserving Solution based on Local Differential Privacy Method</title>
-      <link>http://localhost:1313/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/</link>
+      <link>https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/</link>
       <pubDate>Fri, 17 May 2024 14:27:25 +0800</pubDate>
-      <guid>http://localhost:1313/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/</guid>
+      <guid>https://id-none.github.io/2024/vehicle-to-vehicle-energy-sharing-scheme-a-privacy-preserving-solution-based-on-local-differential-privacy-method/</guid>
       <description>V2V电车能量交换 Vehicle-to-Vehicle Energy Sharing Scheme: A Privacy-Preserving Solution based on Local Differential Privacy Method 贡献点： 自适应隐私预算分配( Adaptive Privacy Budget Allocation，APA )模型，通过隐私预算分配来平衡数据</description>
     </item>
   </channel>
