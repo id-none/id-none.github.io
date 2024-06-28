@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Huorong on Boris&#39;s Blog</title>
-        <link>http://localhost:1313/tags/huorong/</link>
+        <link>https://id-none.github.io/tags/huorong/</link>
         <description>Recent content in Huorong on Boris&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-CN</language>
-        <lastBuildDate>Mon, 03 Jun 2024 16:22:34 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/huorong/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 03 Jun 2024 16:22:34 +0800</lastBuildDate><atom:link href="https://id-none.github.io/tags/huorong/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Go语言ShellCode免杀火绒</title>
-        <link>http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</link>
+        <link>https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</link>
         <pubDate>Mon, 03 Jun 2024 16:22:34 +0800</pubDate>
         
-        <guid>http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</guid>
-        <description>&lt;img src="http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603162742164.png" alt="Featured image of post Go语言ShellCode免杀火绒" /&gt;&lt;h1 id=&#34;1--shellcode-加载器go&#34;&gt;1.  Shellcode 加载器（go）
+        <guid>https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</guid>
+        <description>&lt;img src="https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603162742164.png" alt="Featured image of post Go语言ShellCode免杀火绒" /&gt;&lt;h1 id=&#34;1--shellcode-加载器go&#34;&gt;1.  Shellcode 加载器（go）
 &lt;/h1&gt;&lt;p&gt;我们先看最后的免杀代码&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
 
@@ -94,11 +94,11 @@ func xorEncrypt(buf []byte, value int) []byte {
 			flex-grow: 314; 
 			flex-basis: 754px&#34;
 	&gt;
-	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34; data-size=&#34;761x242&#34;&gt;
-		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34; data-size=&#34;761x242&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34;
 			width=&#34;761&#34;
 			height=&#34;242&#34;
-			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -128,11 +128,11 @@ print(shellcode)
 			flex-grow: 615; 
 			flex-basis: 1478px&#34;
 	&gt;
-	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537.png&#34; data-size=&#34;2476x402&#34;&gt;
-		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537.png&#34;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537.png&#34; data-size=&#34;2476x402&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537.png&#34;
 			width=&#34;2476&#34;
 			height=&#34;402&#34;
-			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537_hu68bb3f7e214e39998f19f09f7eab598b_73178_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537_hu68bb3f7e214e39998f19f09f7eab598b_73178_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537_hu68bb3f7e214e39998f19f09f7eab598b_73178_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537_hu68bb3f7e214e39998f19f09f7eab598b_73178_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -147,11 +147,11 @@ print(shellcode)
 			flex-grow: 314; 
 			flex-basis: 754px&#34;
 	&gt;
-	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34; data-size=&#34;761x242&#34;&gt;
-		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34; data-size=&#34;761x242&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34;
 			width=&#34;761&#34;
 			height=&#34;242&#34;
-			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -182,11 +182,11 @@ func xorEncrypt(buf []byte, value int) []byte {
 			flex-grow: 309; 
 			flex-basis: 741px&#34;
 	&gt;
-	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696.png&#34; data-size=&#34;776x251&#34;&gt;
-		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696.png&#34;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696.png&#34; data-size=&#34;776x251&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696.png&#34;
 			width=&#34;776&#34;
 			height=&#34;251&#34;
-			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696_huc6139853c71ea2ae99ec210e13bdcc2d_52278_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696_huc6139853c71ea2ae99ec210e13bdcc2d_52278_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696_huc6139853c71ea2ae99ec210e13bdcc2d_52278_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696_huc6139853c71ea2ae99ec210e13bdcc2d_52278_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -200,11 +200,11 @@ func xorEncrypt(buf []byte, value int) []byte {
 			flex-grow: 254; 
 			flex-basis: 611px&#34;
 	&gt;
-	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430.png&#34; data-size=&#34;1100x432&#34;&gt;
-		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430.png&#34;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430.png&#34; data-size=&#34;1100x432&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430.png&#34;
 			width=&#34;1100&#34;
 			height=&#34;432&#34;
-			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430_hu32dbec9d972f2d35da4af401bd4375f1_335259_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430_hu32dbec9d972f2d35da4af401bd4375f1_335259_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430_hu32dbec9d972f2d35da4af401bd4375f1_335259_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430_hu32dbec9d972f2d35da4af401bd4375f1_335259_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -217,11 +217,11 @@ func xorEncrypt(buf []byte, value int) []byte {
 			flex-grow: 529; 
 			flex-basis: 1270px&#34;
 	&gt;
-	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028.png&#34; data-size=&#34;1631x308&#34;&gt;
-		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028.png&#34;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028.png&#34; data-size=&#34;1631x308&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028.png&#34;
 			width=&#34;1631&#34;
 			height=&#34;308&#34;
-			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028_hu1c25fe5c025c7d21bb1d2be40b9d98eb_173178_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028_hu1c25fe5c025c7d21bb1d2be40b9d98eb_173178_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028_hu1c25fe5c025c7d21bb1d2be40b9d98eb_173178_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028_hu1c25fe5c025c7d21bb1d2be40b9d98eb_173178_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -236,11 +236,11 @@ func xorEncrypt(buf []byte, value int) []byte {
 			flex-grow: 166; 
 			flex-basis: 398px&#34;
 	&gt;
-	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345.png&#34; data-size=&#34;1023x616&#34;&gt;
-		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345.png&#34;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345.png&#34; data-size=&#34;1023x616&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345.png&#34;
 			width=&#34;1023&#34;
 			height=&#34;616&#34;
-			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345_hu9b6babee500537cd031d39e44c5758e6_33020_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345_hu9b6babee500537cd031d39e44c5758e6_33020_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345_hu9b6babee500537cd031d39e44c5758e6_33020_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345_hu9b6babee500537cd031d39e44c5758e6_33020_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -254,11 +254,11 @@ func xorEncrypt(buf []byte, value int) []byte {
 			flex-grow: 162; 
 			flex-basis: 390px&#34;
 	&gt;
-	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224.png&#34; data-size=&#34;1299x799&#34;&gt;
-		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224.png&#34;
+	&lt;a href=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224.png&#34; data-size=&#34;1299x799&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224.png&#34;
 			width=&#34;1299&#34;
 			height=&#34;799&#34;
-			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224_hu8ffe3f08206ee9e5b4940159336c6d6c_76976_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224_hu8ffe3f08206ee9e5b4940159336c6d6c_76976_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224_hu8ffe3f08206ee9e5b4940159336c6d6c_76976_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224_hu8ffe3f08206ee9e5b4940159336c6d6c_76976_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;

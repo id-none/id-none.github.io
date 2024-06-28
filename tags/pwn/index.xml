@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Pwn on Boris&#39;s Blog</title>
-        <link>http://localhost:1313/tags/pwn/</link>
+        <link>https://id-none.github.io/tags/pwn/</link>
         <description>Recent content in Pwn on Boris&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 17 May 2024 13:26:06 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/pwn/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 17 May 2024 13:26:06 +0800</lastBuildDate><atom:link href="https://id-none.github.io/tags/pwn/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>PwnCollege 学习笔记</title>
-        <link>http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+        <link>https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
         <pubDate>Fri, 17 May 2024 13:26:06 +0800</pubDate>
         
-        <guid>http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
-        <description>&lt;img src="http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517133556992.png" alt="Featured image of post PwnCollege 学习笔记" /&gt;&lt;h1 id=&#34;1-学习路线&#34;&gt;1. 学习路线
+        <guid>https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+        <description>&lt;img src="https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517133556992.png" alt="Featured image of post PwnCollege 学习笔记" /&gt;&lt;h1 id=&#34;1-学习路线&#34;&gt;1. 学习路线
 &lt;/h1&gt;&lt;p&gt;作为一名网络安全的学生，最开始接触到的就是web安全。但是在学习web安全的过程中，逐渐发现web安全需要更多更广的知识面。但是这对于现在的我来说是不现实的，因为在读研过程中，花费更时间去阅读论文和完成导师的项目。&lt;/p&gt;
 &lt;p&gt;此外，总是听见别人说，pwn爷，pwn爷的，也觉得学习pwn，二进制安全是很厉害的。不过也正式因为如此，pwn的学习需要很多基本知识（汇编，C/C++，linux安全机制，堆栈相关知识等）。总之就是需要很多知识作为铺垫才能帮助去深入理解pwn的原理和技术。&lt;/p&gt;
 &lt;h1 id=&#34;2-pwncollege&#34;&gt;2. PwnCollege
@@ -25,11 +25,11 @@
 			flex-grow: 218; 
 			flex-basis: 524px&#34;
 	&gt;
-	&lt;a href=&#34;http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761.png&#34; data-size=&#34;686x314&#34;&gt;
-		&lt;img src=&#34;http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761.png&#34;
+	&lt;a href=&#34;https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761.png&#34; data-size=&#34;686x314&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761.png&#34;
 			width=&#34;686&#34;
 			height=&#34;314&#34;
-			srcset=&#34;http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761_huae0e5876dec935c3ff8c899b3530d576_25126_480x0_resize_box_3.png 480w, http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761_huae0e5876dec935c3ff8c899b3530d576_25126_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761_huae0e5876dec935c3ff8c899b3530d576_25126_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761_huae0e5876dec935c3ff8c899b3530d576_25126_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
@@ -42,11 +42,11 @@
 			flex-grow: 138; 
 			flex-basis: 333px&#34;
 	&gt;
-	&lt;a href=&#34;http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228.png&#34; data-size=&#34;1426x1026&#34;&gt;
-		&lt;img src=&#34;http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228.png&#34;
+	&lt;a href=&#34;https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228.png&#34; data-size=&#34;1426x1026&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228.png&#34;
 			width=&#34;1426&#34;
 			height=&#34;1026&#34;
-			srcset=&#34;http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228_huf345f04237d23d65b248d76c14b50303_142720_480x0_resize_box_3.png 480w, http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228_huf345f04237d23d65b248d76c14b50303_142720_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228_huf345f04237d23d65b248d76c14b50303_142720_480x0_resize_box_3.png 480w, https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228_huf345f04237d23d65b248d76c14b50303_142720_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			&gt;
 	&lt;/a&gt;
