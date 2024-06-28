@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="zh-CN">
     <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='V2V电车能量交换 Vehicle-to-Vehicle Energy Sharing Scheme: A Privacy-Preserving Solution based on Local Differential Privacy Method 贡献点： 自适应隐私预算分配( Adaptive Privacy Budget Allocation，APA )模型，通过隐私预算分配来平衡数据'><title>Vehicle-to-Vehicle Energy Sharing Scheme: A Privacy-Preserving Solution based on Local Differential Privacy Method</title>
 
@@ -315,8 +315,8 @@
     <section class="article-content">
     
     
-    <h1 id="v2v电车能量交换">V2V电车能量交换</h1>
-<p>Vehicle-to-Vehicle Energy Sharing Scheme: A Privacy-Preserving Solution based on Local Differential Privacy Method</p>
+    <h1 id="v2v电车能量交换">V2V电车能量交换
+</h1><p>Vehicle-to-Vehicle Energy Sharing Scheme: A Privacy-Preserving Solution based on Local Differential Privacy Method</p>
 <p>贡献点：</p>
 <ol>
 <li>自适应隐私预算分配( Adaptive Privacy Budget Allocation，APA )模型，通过隐私预算分配来平衡数据失真和隐私泄露风险。</li>
@@ -342,8 +342,8 @@
 	<figcaption>Implementation of VES scheme</figcaption>
 	
 </figure></p>
-<h2 id="apa模型-自适应隐私计算分配模型-用来平衡噪声和信息可用性">APA模型 自适应隐私计算分配模型 <strong>用来平衡噪声和信息可用性</strong></h2>
-<p>原始位置经历LDP（本地差分隐私）扰动【添加噪声】。使用高斯核函数和哈曼顿距离来衡量两个位置之间的相似性（S，公式1）</p>
+<h2 id="apa模型-自适应隐私计算分配模型-用来平衡噪声和信息可用性">APA模型 自适应隐私计算分配模型 <strong>用来平衡噪声和信息可用性</strong>
+</h2><p>原始位置经历LDP（本地差分隐私）扰动【添加噪声】。使用高斯核函数和哈曼顿距离来衡量两个位置之间的相似性（S，公式1）</p>
 <p><figure 
 	
 		class="gallery-image" 
@@ -367,8 +367,8 @@
 <p>公式2：轨迹信息泄露量(TIL) = 求和[1/(相似性×距离)]？</p>
 <p>公式3：<strong>ε</strong>remain表示剩余的隐私预算，εtotal表示总体隐私预算，εk表示指定位置隐私预算支出。</p>
 <p>公式4：εmin 和 εmax分别**：**引入ε min来避免将微薄的预算分配到后续位置，ε max是最大隐私预算上限的阈值。</p>
-<h2 id="hup模型-平衡数据隐私保护水平和数据效用的高效用扰动">HUP模型 平衡数据隐私保护水平和数据效用的高效用扰动</h2>
-<p>使用HUP模型的主要目的是在使用LDP方法保护数据隐私的同时，尽可能地保留原始数据的有用信息。例如，当我们需要共享敏感数据时，我们可以使用位置扰动算法对一些数据点的位置进行扰动，而不是完全按照LDP方法修改数据点的值。（不是很能理解）</p>
+<h2 id="hup模型-平衡数据隐私保护水平和数据效用的高效用扰动">HUP模型 平衡数据隐私保护水平和数据效用的高效用扰动
+</h2><p>使用HUP模型的主要目的是在使用LDP方法保护数据隐私的同时，尽可能地保留原始数据的有用信息。例如，当我们需要共享敏感数据时，我们可以使用位置扰动算法对一些数据点的位置进行扰动，而不是完全按照LDP方法修改数据点的值。（不是很能理解）</p>
 <p><figure 
 	
 		class="gallery-image" 
@@ -409,8 +409,8 @@
 	<figcaption>Algorithm 1</figcaption>
 	
 </figure></p>
-<h2 id="pwa-改进轨迹隐私保护的隐私加权平均-防止扰动位置太假了容易被辨别出来">PWA 改进轨迹隐私保护的隐私加权平均 （防止扰动位置太假了，容易被辨别出来）</h2>
-<p><figure 
+<h2 id="pwa-改进轨迹隐私保护的隐私加权平均-防止扰动位置太假了容易被辨别出来">PWA 改进轨迹隐私保护的隐私加权平均 （防止扰动位置太假了，容易被辨别出来）
+</h2><p><figure 
 	
 		class="gallery-image" 
 		style="
@@ -429,8 +429,8 @@
 	<figcaption>PWA Model</figcaption>
 	
 </figure></p>
-<h1 id="问题">问题：</h1>
-<ol>
+<h1 id="问题">问题：
+</h1><ol>
 <li>该文章使用了差分隐私的扰乱机制的具体技术？文章中并没有提到说使用什么扰动机制。只提到了LDP，local 差分隐私。</li>
 <li>该方案中APA模型中的第三步，第四步的具体含义？
 <ol>

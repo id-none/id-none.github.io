@@ -1,19 +1,64 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Pwn on Boris&#39;s Blog</title>
-    <link>http://localhost:1313/tags/pwn/</link>
-    <description>Recent content in Pwn on Boris&#39;s Blog</description>
-    <generator>Hugo</generator>
-    <language>en-us</language>
-    <lastBuildDate>Fri, 17 May 2024 13:26:06 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/pwn/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>PwnCollege 学习笔记</title>
-      <link>http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
-      <pubDate>Fri, 17 May 2024 13:26:06 +0800</pubDate>
-      <guid>http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
-      <description>1. 学习路线 作为一名网络安全的学生，最开始接触到的就是web安全。但是在学习web安全的过程中，逐渐发现web安全需要更多更广的知识面。但是这</description>
-    </item>
-  </channel>
+    <channel>
+        <title>Pwn on Boris&#39;s Blog</title>
+        <link>http://localhost:1313/tags/pwn/</link>
+        <description>Recent content in Pwn on Boris&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Fri, 17 May 2024 13:26:06 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/pwn/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>PwnCollege 学习笔记</title>
+        <link>http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+        <pubDate>Fri, 17 May 2024 13:26:06 +0800</pubDate>
+        
+        <guid>http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+        <description>&lt;img src="http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517133556992.png" alt="Featured image of post PwnCollege 学习笔记" /&gt;&lt;h1 id=&#34;1-学习路线&#34;&gt;1. 学习路线
+&lt;/h1&gt;&lt;p&gt;作为一名网络安全的学生，最开始接触到的就是web安全。但是在学习web安全的过程中，逐渐发现web安全需要更多更广的知识面。但是这对于现在的我来说是不现实的，因为在读研过程中，花费更时间去阅读论文和完成导师的项目。&lt;/p&gt;
+&lt;p&gt;此外，总是听见别人说，pwn爷，pwn爷的，也觉得学习pwn，二进制安全是很厉害的。不过也正式因为如此，pwn的学习需要很多基本知识（汇编，C/C++，linux安全机制，堆栈相关知识等）。总之就是需要很多知识作为铺垫才能帮助去深入理解pwn的原理和技术。&lt;/p&gt;
+&lt;h1 id=&#34;2-pwncollege&#34;&gt;2. PwnCollege
+&lt;/h1&gt;&lt;p&gt;众所周知，学习安全技术，特别是这种国内敏感技术，很多国内的网站是无法找到资源的。机缘巧合之前，我认识了一个大佬同学（腾讯安全、UCI博士在读），在他的建议下，我开始尝试pwnCollege的学习。作为一个英语高考只有100分的我来说，在学习过程中确实遇到了很多很多的困难。&lt;/p&gt;
+&lt;p&gt;但是兴趣是最好的老师，这个课程的学习相比课堂上的读PPT会更加有趣且令人心动。在这种兴趣的不断吸引下，我从23年8月份开始学习pwnCollege的CES-466课程，截至目前位置已经完成一半内容 的学习。当然距离蓝带的路还是很远很远。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 218; 
+			flex-basis: 524px&#34;
+	&gt;
+	&lt;a href=&#34;http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761.png&#34; data-size=&#34;686x314&#34;&gt;
+		&lt;img src=&#34;http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761.png&#34;
+			width=&#34;686&#34;
+			height=&#34;314&#34;
+			srcset=&#34;http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761_huae0e5876dec935c3ff8c899b3530d576_25126_480x0_resize_box_3.png 480w, http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135251761_huae0e5876dec935c3ff8c899b3530d576_25126_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 138; 
+			flex-basis: 333px&#34;
+	&gt;
+	&lt;a href=&#34;http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228.png&#34; data-size=&#34;1426x1026&#34;&gt;
+		&lt;img src=&#34;http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228.png&#34;
+			width=&#34;1426&#34;
+			height=&#34;1026&#34;
+			srcset=&#34;http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228_huf345f04237d23d65b248d76c14b50303_142720_480x0_resize_box_3.png 480w, http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20240517135330228_huf345f04237d23d65b248d76c14b50303_142720_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;从最简单的程序交互-&amp;gt;汇编基础-&amp;gt;shellcode注入-&amp;gt;debug-&amp;gt;逆向工程。。。&lt;/p&gt;
+&lt;p&gt;在这些学习过程中，我收获很多，开始逐渐向着计算机底层靠近。&lt;/p&gt;
+&lt;h1 id=&#34;3-感受&#34;&gt;3. 感受
+&lt;/h1&gt;&lt;p&gt;通过冯诺依曼结构的代码段和text段没有明显区别可以在堆栈上写入shellcode，去执行恶意代码；&lt;/p&gt;
+&lt;p&gt;设置ROP完成系统调用；格式化字符串泄露程序carry，爆破PIE，libc地址泄露，任意内存读写去修改汇编指令完成程序执行流（CFI）的控制，这些都是我在学习中获得的知识。每一次过题，都是一种前所未有的幸福，不仅仅是自己的知识增长了，更重要的是，解开了所谓”抽象“的面纱。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
 </rss>

