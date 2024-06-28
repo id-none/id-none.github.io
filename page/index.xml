@@ -2,38 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pages on Boris&#39;s Blog</title>
-    <link>https://id-none.github.io/page/</link>
+    <link>http://localhost:1313/page/</link>
     <description>Recent content in Pages on Boris&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 09 Oct 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://id-none.github.io/page/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/page/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Archives</title>
-      <link>https://id-none.github.io/archives/</link>
+      <link>http://localhost:1313/archives/</link>
       <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
-      <guid>https://id-none.github.io/archives/</guid>
+      <guid>http://localhost:1313/archives/</guid>
       <description></description>
     </item>
     <item>
       <title>Friends</title>
-      <link>https://id-none.github.io/links/</link>
+      <link>http://localhost:1313/links/</link>
       <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
-      <guid>https://id-none.github.io/links/</guid>
+      <guid>http://localhost:1313/links/</guid>
       <description>[ { &amp;quot;title&amp;quot;: &amp;quot;Boris&amp;quot;, &amp;quot;website&amp;quot;: &amp;quot;https://id-none.github.io/&amp;quot;, &amp;quot;image&amp;quot;: &amp;quot;https://avatars.githubusercontent.com/u/85512514?v=4&amp;quot;, &amp;quot;description&amp;quot;: &amp;quot;Act decisively and pursue your desires.&amp;quot; }, { &amp;quot;title&amp;quot;: &amp;quot;link2&amp;quot;, &amp;quot;website&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;image&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;description&amp;quot;: &amp;quot;&amp;quot; } ]</description>
     </item>
     <item>
       <title>About</title>
-      <link>https://id-none.github.io/about/</link>
+      <link>http://localhost:1313/about/</link>
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
-      <guid>https://id-none.github.io/about/</guid>
+      <guid>http://localhost:1313/about/</guid>
       <description>研一末最后的挣扎，在实验室被师兄师姐们的焦虑心情所感染，无心学习。 现在还没有写什么内容，确实notion更爽，但是还是希望在博客上分析自己阅</description>
     </item>
     <item>
       <title>Search</title>
-      <link>https://id-none.github.io/search/</link>
+      <link>http://localhost:1313/search/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://id-none.github.io/search/</guid>
+      <guid>http://localhost:1313/search/</guid>
       <description></description>
     </item>
   </channel>

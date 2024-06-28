@@ -2,24 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Technology on Boris&#39;s Blog</title>
-    <link>https://id-none.github.io/categories/technology/</link>
+    <link>http://localhost:1313/categories/technology/</link>
     <description>Recent content in Technology on Boris&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 03 Jun 2024 16:22:34 +0800</lastBuildDate>
-    <atom:link href="https://id-none.github.io/categories/technology/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 Jun 2024 13:26:06 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/technology/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>UPX脱壳初探(x64dbg)</title>
+      <link>http://localhost:1313/2024/upx%E8%84%B1%E5%A3%B3%E5%88%9D%E6%8E%A2x64dbg/</link>
+      <pubDate>Thu, 27 Jun 2024 13:26:06 +0800</pubDate>
+      <guid>http://localhost:1313/2024/upx%E8%84%B1%E5%A3%B3%E5%88%9D%E6%8E%A2x64dbg/</guid>
+      <description>1. Target 程序 CRACKME CRACKME UPX 解压密码：9unk 目标：初步学习脱壳步骤，了解OEP（程序入口点）和 IAT（Import Address Table） 2. 壳 PE （Poreable</description>
+    </item>
     <item>
       <title>Go语言ShellCode免杀火绒</title>
-      <link>https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</link>
+      <link>http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</link>
       <pubDate>Mon, 03 Jun 2024 16:22:34 +0800</pubDate>
-      <guid>https://id-none.github.io/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</guid>
+      <guid>http://localhost:1313/2024/go%E8%AF%AD%E8%A8%80shellcode%E5%85%8D%E6%9D%80%E7%81%AB%E7%BB%92/</guid>
       <description>1. Shellcode 加载器（go） 我们先看最后的免杀代码 package main import ( &amp;quot;fmt&amp;quot; &amp;quot;os&amp;quot; &amp;quot;syscall&amp;quot; &amp;quot;unsafe&amp;quot; ) const ( MEM_COMMIT = 0x1000 MEM_RESERVE = 0x2000 PAGE_EXECUTE_READWRITE = 0x40 ) var ( kernel32 = syscall.NewLazyDLL(&amp;quot;kernel32.dll&amp;quot;) ntdll = syscall.NewLazyDLL(&amp;quot;ntdll.dll&amp;quot;) VirtualAlloc = kernel32.NewProc(&amp;quot;VirtualAlloc&amp;quot;) RtlCopyMemory = ntdll.NewProc(&amp;quot;RtlCopyMemory&amp;quot;) //shellcode_buf = []byte{ //} shellcode_buf = []byte{ } ) func check(e error) { if e</description>
     </item>
     <item>
       <title>PwnCollege 学习笔记</title>
-      <link>https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <link>http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Fri, 17 May 2024 13:26:06 +0800</pubDate>
-      <guid>https://id-none.github.io/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <guid>http://localhost:1313/2024/pwncollege-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
       <description>1. 学习路线 作为一名网络安全的学生，最开始接触到的就是web安全。但是在学习web安全的过程中，逐渐发现web安全需要更多更广的知识面。但是这</description>
     </item>
   </channel>
