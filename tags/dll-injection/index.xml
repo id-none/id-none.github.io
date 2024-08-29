@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>DLL Injection on Boris&#39;s Blog</title>
+        <link>https://id-none.github.io/tags/dll-injection/</link>
+        <description>Recent content in DLL Injection on Boris&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Thu, 29 Aug 2024 17:26:06 +0800</lastBuildDate><atom:link href="https://id-none.github.io/tags/dll-injection/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>DLL注入</title>
+        <link>https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/</link>
+        <pubDate>Thu, 29 Aug 2024 17:26:06 +0800</pubDate>
+        
+        <guid>https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/</guid>
+        <description>&lt;img src="https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829171930019.png" alt="Featured image of post DLL注入" /&gt;&lt;h1 id=&#34;1-介绍&#34;&gt;1. 介绍
+&lt;/h1&gt;&lt;p&gt;DLL注入指的是向运行中的其他进程强制插入特定的DLL文件。从技术细节来说，DLL注入命令其他进程自行调用LoadLibrary() API,加载（Loading）用户指定的DLL文件。DLL注入与一般DLL加载的区别在于，加载的目标进程是其自身或其他进程。下图描述了DLL注入的概念。&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 116; 
+			flex-basis: 279px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829171930019.png&#34; data-size=&#34;2000x1720&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829171930019.png&#34;
+			width=&#34;2000&#34;
+			height=&#34;1720&#34;
+			srcset=&#34;https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829171930019_hu14773067095575877703.png 480w, https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829171930019_hu14856352527106178973.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;从图中可以看到，myhack.dll已被强制插入notepad进程（本来notepad并不会加载myhack.dll ）。加载到notepad.exe进程中的myhack.dll与已经加载到notepad.exe进程中的DLL（kemel32.dll、user32.dll） —样，拥有访问notepad.exe进程内存的（正当的）权限，这样用户就可以做任何想做的事了（比如：向notepad添加通信功能以实现Messenger、文本网络浏览器等）。&lt;/p&gt;
+&lt;p&gt;DLL被加载到进程后会自动运行DllMain()函数，用户可以把想执行的代码放到DllMain()函数，每当加载DLL时，添加的代码就会自然而然得到执行。利用该特性可修复程序Bug,或向程序添加新功能。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-jsx&#34;&gt;DLL（Dynamic Linked Library，动态链接库）被加载到进程后会自动运行DllMain()函数，用户可以把想执行的代码放到DllMain()函数，每当加载DLL时，添加的代码就会自然而然得到执行。利用该特性可修复程序Bug,或向程序添加新功能。
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
+{
+    switch( dwReason )
+    {
+        case DLL_PROCESS_ATTACH:
+            // 添加想执行的代码
+            break;
+        case DLL_THREAD_ATTACH:
+            break;
+        case DLL_THREAD_DETACH:
+            break;	
+        case DLL_PROCESS_DETACH:
+            break;	
+    }
+
+    return TRUE;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1 id=&#34;2-dll注入示例&#34;&gt;2. DLL注入示例
+&lt;/h1&gt;&lt;p&gt;使用LoadLibrary() API加载某个DLL时，该DLL中的DllMain()函数就会被调用执行。DLL注入的工作原理就是从外部促使目标进程调用LoadLibrary() API （与一般DLL加载相同），所以会强制调用执行DLL的DllMain()函数。并且，被注入的DLL拥有目标进程内存的访问权限，用户可以随意操作（修复Bug、添加功能等）。下面看一些使用DLL注入技术的示例。&lt;/p&gt;
+&lt;h2 id=&#34;21-改善功能与修复bug&#34;&gt;2.1 &lt;strong&gt;改善功能与修复Bug&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;DLL注入技术可用于改善功能与修复Bug。没有程序对应的源码，或直接修改程序比较困难时，就可以使用DLL注入技术为程序添加新功能（类似于插件），或者修改有问题的代码、数据。&lt;/p&gt;
+&lt;h2 id=&#34;22-消息钩取&#34;&gt;2.2 &lt;strong&gt;消息钩取&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;Windows OS默认提供的消息钩取功能应用的就是一种DLL注入技术。与常规的DLL注入唯一的区别是，OS会直接将已注册的钩取DLL注入目标进程。&lt;/p&gt;
+&lt;h2 id=&#34;23-api-钩取&#34;&gt;2.3 &lt;strong&gt;API 钩取&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;API钩取广泛应用于实际的项目开发，而进行API钩取时经常使用DLL注入技术。先创建好DLL形态的钩取函数，再将其轻松注入要钩取的目标进程，这样就完成了API钩取。这灵活运用了 “被注入的DLL拥有目标进程内存访问权限”这一特性&lt;/p&gt;
+&lt;h2 id=&#34;24-其他应用程序&#34;&gt;2.4 &lt;strong&gt;其他应用程序&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;DLL注入技术也应用于监视、管理PC用户的应用程序。比如，用来阻止特定程序（像游戏、股票交易等）运行、禁止访问有害网站，以及监视PC的使用等。管理员（或者父母）主要安装这类拦截/阻断应用程序来管理/监视。受管理/监视的一方当然千方百计地想关闭这些监视程序，但由于这些监视程序采用DLL注入技术，它们可以隐藏在正常进程中运行，所以管理员一般不用担心被发现或被终止（若用户强制终止Windows系统进程，也会一并关闭系统，最后也算达成了拦截/阻断这一目标）。&lt;/p&gt;
+&lt;h2 id=&#34;25-恶意代码&#34;&gt;2.5 &lt;strong&gt;恶意代码&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;恶意代码制作者们是不会置这么好的技术于不顾的，他们积极地把DLL注入技术运用到自己制作的恶意代码中。这些入把自己编写的恶意代码隐藏到正常进程（winlogon.exe、services.exe、svchost.exe、explorer.exe等），打开后门端口（ Backdoor port ），尝试从外部连接，或通过键盘偷录（Keylogging）功能将用户的个入信息盗走。只有了解恶意代码制作者们使用的手法，才能拿出相应对策&lt;/p&gt;
+&lt;h1 id=&#34;3-dll注入的实现方法&#34;&gt;3. DLL注入的实现方法
+&lt;/h1&gt;&lt;p&gt;向某个进程注入DLL时主要使用以下三种方法：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建远程线程（CreateRemoteThread() API)&lt;/li&gt;
+&lt;li&gt;使用注册表（AppInit_DLLs值）&lt;/li&gt;
+&lt;li&gt;消息钩取（SetWindowsHookEx() API）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;31-使用createremotethread函数进行dll注入&#34;&gt;3.1 &lt;strong&gt;使用CreateRemoteThread()函数进行DLL注入&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;将DLL1.dll注入到notepad.exe进程中,查看PID为4644&lt;/p&gt;
+&lt;p&gt;使用管理员打开cmd，然后进行dll注入&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;sudo .\\DLL注入.exe 4644 C:\\Users\\xxxxx\\Desktop\\恶意代码分析\\进程注入\\Dll1\\x64\\Debug\\Dll1.dll
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 136; 
+			flex-basis: 327px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829172029324.png&#34; data-size=&#34;2000x1466&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829172029324.png&#34;
+			width=&#34;2000&#34;
+			height=&#34;1466&#34;
+			srcset=&#34;https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829172029324_hu6560594509309568958.png 480w, https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829172029324_hu9576281290531800719.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 155; 
+			flex-basis: 372px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829172112660.png&#34; data-size=&#34;2000x1289&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829172112660.png&#34;
+			width=&#34;2000&#34;
+			height=&#34;1289&#34;
+			srcset=&#34;https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829172112660_hu1419743597050033716.png 480w, https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829172112660_hu13128667236335850262.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-cpp&#34;&gt;// DLL1.dll
+#include &amp;quot;windows.h&amp;quot;
+#include &amp;quot;tchar.h&amp;quot;
+#include &amp;quot;pch.h&amp;quot;
+
+#pragma comment(lib, &amp;quot;urlmon.lib&amp;quot;)
+
+HMODULE g_hMod = NULL;
+
+DWORD WINAPI ThreadProc(LPVOID lParam)
+{
+	// 弹窗“Hello World!”
+	MessageBox(NULL, L&amp;quot;Hello World!&amp;quot;, L&amp;quot;Message&amp;quot;, MB_OK);
+	return 0;
+}
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
+    HANDLE hThread = NULL;
+
+    g_hMod = (HMODULE)hinstDLL;
+
+    switch (fdwReason)
+    {
+    case DLL_PROCESS_ATTACH: 	//加载时
+        OutputDebugString(L&amp;quot;Injection!!!&amp;quot;); //输出调试字符串
+        hThread = CreateThread(NULL, 0, ThreadProc, NULL, 0, NULL); //创建线程
+        CloseHandle(hThread);
+        break;
+    }
+
+    return TRUE;
+}
+// DLL注入.cpp
+#include &amp;quot;windows.h&amp;quot;
+#include &amp;quot;tchar.h&amp;quot;
+
+BOOL SetPrivilege(LPCTSTR lpszPrivilege, BOOL bEnablePrivilege)
+{
+    TOKEN_PRIVILEGES tp;
+    HANDLE hToken;
+    LUID luid;
+
+    if (!OpenProcessToken(GetCurrentProcess(),
+        TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY,
+        &amp;amp;hToken))
+    {
+        _tprintf(L&amp;quot;OpenProcessToken error: %u\\n&amp;quot;, GetLastError());
+        return FALSE;
+    }
+
+    if (!LookupPrivilegeValue(NULL,           // lookup privilege on local system
+        lpszPrivilege,  // privilege to lookup 
+        &amp;amp;luid))        // receives LUID of privilege
+    {
+        _tprintf(L&amp;quot;LookupPrivilegeValue error: %u\\n&amp;quot;, GetLastError());
+        return FALSE;
+    }
+
+    tp.PrivilegeCount = 1;
+    tp.Privileges[0].Luid = luid;
+    if (bEnablePrivilege)
+        tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+    else
+        tp.Privileges[0].Attributes = 0;
+
+    // Enable the privilege or disable all privileges.
+    if (!AdjustTokenPrivileges(hToken,
+        FALSE,
+        &amp;amp;tp,
+        sizeof(TOKEN_PRIVILEGES),
+        (PTOKEN_PRIVILEGES)NULL,
+        (PDWORD)NULL))
+    {
+        _tprintf(L&amp;quot;AdjustTokenPrivileges error: %u\\n&amp;quot;, GetLastError());
+        return FALSE;
+    }
+
+    if (GetLastError() == ERROR_NOT_ALL_ASSIGNED)
+    {
+        _tprintf(L&amp;quot;The token does not have the specified privilege. \\n&amp;quot;);
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+BOOL InjectDll(DWORD dwPID, LPCTSTR szDllPath)
+{
+    HANDLE hProcess = NULL, hThread = NULL;
+    HMODULE hMod = NULL;
+    LPVOID pRemoteBuf = NULL;
+    DWORD dwBufSize = (DWORD)(_tcslen(szDllPath) + 1) * sizeof(TCHAR);
+    LPTHREAD_START_ROUTINE pThreadProc;
+
+    // #1. 使用 dwPID 获取目标进程(notepad.exe)句柄（PROCESS_ALL_ACCESS权限），然后就可以用 hProcess 控制进程.
+    if (!(hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwPID)))
+    {        //OpenProcess调用API，借助PID获取目标权限
+        _tprintf(L&amp;quot;OpenProcess(%d) failed!!! [%d]\\n&amp;quot;, dwPID, GetLastError());
+        return FALSE;
+    }
+
+    // #2. 在目标进程(notepad.exe) 内存中分配 szDllName 大小的内存，返回 pRemoteBuf 作为该缓冲区的地址.
+    pRemoteBuf = VirtualAllocEx(hProcess, NULL, dwBufSize, MEM_COMMIT, PAGE_READWRITE);
+
+    // #3. 将 myhack.dll 路径写入刚刚分配的缓冲区.
+    WriteProcessMemory(hProcess, pRemoteBuf, (LPVOID)szDllPath, dwBufSize, NULL);
+
+    // #4. 获取 LoadLibraryW() API 地址，kernel32.dll在每个进程中的加载地址相同（这个特性就是我们要利用的）.
+    hMod = GetModuleHandle(L&amp;quot;kernel32.dll&amp;quot;);
+    pThreadProc = (LPTHREAD_START_ROUTINE)GetProcAddress(hMod, &amp;quot;LoadLibraryW&amp;quot;);
+
+    // #5. 在 notepad.exe 中运行线程
+    hThread = CreateRemoteThread(hProcess, NULL, 0, pThreadProc, pRemoteBuf, 0, NULL);
+    WaitForSingleObject(hThread, INFINITE);
+
+    CloseHandle(hThread);
+    CloseHandle(hProcess);
+
+    return TRUE;
+}
+
+int _tmain(int argc, TCHAR* argv[])
+{
+    if (argc != 3)
+    {
+        _tprintf(L&amp;quot;USAGE : %s &amp;lt;pid&amp;gt; &amp;lt;dll_path&amp;gt;\\n&amp;quot;, argv[0]);
+        return 1;
+    }
+
+    // change privilege
+    if (!SetPrivilege(SE_DEBUG_NAME, TRUE))
+        return 1;
+
+    // inject dll
+    if (InjectDll((DWORD)_tstol(argv[1]), argv[2]))
+        _tprintf(L&amp;quot;InjectDll(\\&amp;quot;%s\\&amp;quot;) success!!!\\n&amp;quot;, argv[2]);
+    else
+        _tprintf(L&amp;quot;InjectDll(\\&amp;quot;%s\\&amp;quot;) failed!!!\\n&amp;quot;, argv[2]);
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;32-使用注册表修改appinit_dlls实现注入bios-secure-boot-已禁用&#34;&gt;3.2 使用注册表修改AppInit_DLLs实现注入（bios secure boot 已禁用）
+&lt;/h2&gt;&lt;p&gt;进行DLL注入的第二种方法是使用注册表，WindowsOS的注册表中默认提供了AppInit_DLLs与LoadAppInit_DLLs两个注册表项&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 147; 
+			flex-basis: 352px&#34;
+	&gt;
+	&lt;a href=&#34;https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829172131742.png&#34; data-size=&#34;2000x1360&#34;&gt;
+		&lt;img src=&#34;https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829172131742.png&#34;
+			width=&#34;2000&#34;
+			height=&#34;1360&#34;
+			srcset=&#34;https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829172131742_hu18446517459900913616.png 480w, https://id-none.github.io/2024/dll%E6%B3%A8%E5%85%A5/image-20240829172131742_hu8547679298402043282.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;只要将要注入DLL的路径写入AppInit_DLLs项目，并在LoadAppInit_DLLs中设置值为1，重启时，系统就会将指定的DLL注入到所有运行进程中。主要原理是User32.dll被加载到进程时，会读取AppInit_DLLs注册表项，若值为1，就调用LoadLibrary()函数加载用户DLL。所以严格来说，是将注入DLL加载到使用user32.dll的进程中。&lt;/p&gt;
+&lt;p&gt;注：Windows XP会忽略LoadAppInit_DLLs注册表项。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-cpp&#34;&gt;// 开启secure boot后的操作
+使用IDA打开Kernel32.dll 查看函数LoadAppInitDllsImplementation
+void LoadAppInitDllsImplementation()
+{
+  struct _PEB *v0; // rax
+  int v1; // [rsp+50h] [rbp+10h] BYREF
+  DWORD pcbData; // [rsp+58h] [rbp+18h] BYREF
+  int pvData; // [rsp+60h] [rbp+20h] BYREF
+  HKEY hkey; // [rsp+68h] [rbp+28h] BYREF
+
+  if ( !MEMORY[0x7FFE02EC] )
+  {
+    v0 = NtCurrentPeb();
+    if ( (v0-&amp;gt;BitField &amp;amp; 2) == 0
+      &amp;amp;&amp;amp; ((v0-&amp;gt;BitField &amp;amp; 0x10) == 0 &amp;amp;&amp;amp; MEMORY[0x7FFE02F0] &amp;gt;= 0 || (unsigned int)BasepIsTestSigningEnabled())
+      &amp;amp;&amp;amp; (!(unsigned int)BasepIsServiceSidBlocked(&amp;amp;v1) || !v1)
+      &amp;amp;&amp;amp; (!(unsigned int)BasepAreExtensionPointsBlocked(&amp;amp;v1) || !v1)
+      &amp;amp;&amp;amp; !RegOpenKeyExW(
+            HKEY_LOCAL_MACHINE,
+            L&amp;quot;Software\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\Windows&amp;quot;,
+            0,
+            0x20019u,
+            &amp;amp;hkey) )
+    {
+      pcbData = 4;
+      if ( !RegGetValueW(hkey, 0i64, L&amp;quot;LoadAppInit_DLLs&amp;quot;, 0x10u, 0i64, &amp;amp;pvData, &amp;amp;pcbData) )
+      {
+        if ( pvData )
+          BasepLoadAppInitDlls(hkey);
+      }
+      RegCloseKey(hkey);
+    }
+  }
+}
+
+__int64 BasepIsTestSigningEnabled()
+{
+  unsigned int v0; // ebx
+  __int64 SystemInformation; // [rsp+30h] [rbp+8h] BYREF
+
+  v0 = 0;
+  SystemInformation = 8i64;
+  if ( NtQuerySystemInformation(MaxSystemInfoClass|SystemProcessInformation, &amp;amp;SystemInformation, 8u, 0i64) &amp;gt;= 0
+    &amp;amp;&amp;amp; (SystemInformation &amp;amp; 0x200000000i64) != 0 )
+  {
+    return 1;
+  }
+  return v0;
+}
+
+//   if ( NtQuerySystemInformation(MaxSystemInfoClass|SystemProcessInformation, &amp;amp;SystemInformation, 8u, 0i64) &amp;gt;= 0 &amp;amp;&amp;amp; (SystemInformation &amp;amp; 0x200000000i64) != 0 ) 判断是否为真
+
+0x2为 CODEINTEGRITY_OPTION_TESTSIGN。这个标志可以在bcdedit中设置，命令为 bcdedit.exe –set testsigning on，用于设置系统的test mode
+但是secure boot只有disable之后才能使用bcdedit设置这个Flag。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;那么我在这个注册表中注入DLL1.dll，启动界面弹出好多个”Hello World“ 🤣&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
